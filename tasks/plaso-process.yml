@@ -36,3 +36,6 @@
   with_items: "{{ timesketch_process_url }}"
 #  with_items: "{{ timesketch_process_url + timesketch_process_files }}"
   when: timesketch_retrieve_plasofile is defined and timesketch_retrieve_plasofile
+  async: 3600
+  poll: 60
+
