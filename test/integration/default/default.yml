@@ -10,7 +10,7 @@
           db: timesketchdb
     - postgresql_databases:
         - name: timesketchdb
-    - timesketch_process: true
+    - timesketch_process: false
   roles:
     - timesketch
 
