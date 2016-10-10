@@ -1,8 +1,8 @@
 # TimeSketch ansible role
 
 Ansible role to setup TimeSketch and Plaso for Disk images Forensics Timeline
-http://www.timesketch.org/
-https://github.com/google/timesketch
+- http://www.timesketch.org/
+- https://github.com/google/timesketch
 
 ## Requirements & Dependencies
 
