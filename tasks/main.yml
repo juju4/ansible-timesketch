@@ -27,6 +27,10 @@
     - bencode
   when: not (ansible_distribution_release == 'trusty' or ansible_distribution_release == 'xenial')
 
+- name: Bugfix trusty - force Flask-Login v0.3.2 - https://github.com/google/timesketch/pull/244
+  pip: name=Flask-login version=0.3.2 state=present
+  when: ansible_distribution_release == 'trusty'
+
 - name: check role user exists
   user: "name={{ timesketch_user }} home={{ timesketch_root }}"
   become: yes
