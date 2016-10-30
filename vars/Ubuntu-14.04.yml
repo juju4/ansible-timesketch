@@ -8,6 +8,14 @@ timesketch_pkg:
     - libffi-dev
     - supervisor
     - unzip
+    - python-flask
+## from gift ppa
+    - python-artifacts
+    - python-bencode
+    - libscca
+    - libscca-python
+    - python-plaso
+## tsctl: ImportError: cannot import name current_app
 
 timesketch_pip_share: /usr/local/share/timesketch
 

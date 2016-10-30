@@ -28,4 +28,5 @@ galaxy_info:
 dependencies:
   - geerlingguy.elasticsearch
   - geerlingguy.postgresql
+  - juju4.gift
 

@@ -12,5 +12,5 @@
         - name: timesketchdb
     - timesketch_process: false
   roles:
-    - timesketch
+    - juju4.timesketch
 

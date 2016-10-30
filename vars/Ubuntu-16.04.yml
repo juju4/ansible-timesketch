@@ -7,8 +7,15 @@ timesketch_pkg:
     - python-dev
     - libffi-dev
     - supervisor
-    - plaso
+## dont conflict with gift plaso
+#    - plaso
     - unzip
+## from gift ppa. plaso in ubuntu official and gift
+    - python-artifacts
+    - python-bencode
+    - libscca
+    - libscca-python
+    - python-plaso
 
 timesketch_pip_share: /usr/local/share/timesketch
 

@@ -4,6 +4,10 @@
   apt: name={{item}} state=present update_cache=yes cache_valid_time=3600
   with_items: "{{ timesketch_pkg }}"
 
+- name: Ubuntu | add universe repository
+  apt_repository: repo="deb http://archive.ubuntu.com/ubuntu {{ ansible_distribution_release }} universe" state=present
+  when: ansible_distribution == 'Ubuntu'
+
 - block:
     - name: Install OpenJDK
       apt: name={{ timesketch_jdk }} state=latest

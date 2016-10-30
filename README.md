@@ -4,6 +4,9 @@ Ansible role to setup TimeSketch and Plaso for Disk images Forensics Timeline
 - http://www.timesketch.org/
 - https://github.com/google/timesketch
 
+Install is done from GIFT ppa on trusty/xenial so should be latest or near-latest.
+For other, from source
+
 ## Requirements & Dependencies
 
 ### Ansible
@@ -73,7 +76,7 @@ $ cp -Rd /path/to/timesketch/packer .
 ## you can add additional role dependencies inside setup-roles.sh
 $ cd packer
 $ packer build packer-*.json
-$ packer build -only=virtualbox packer-*.json
+$ packer build -only=virtualbox-iso packer-*.json
 ## if you want to enable extra log
 $ PACKER_LOG=1 packer build packer-*.json
 ## for digitalocean build, you need to export TOKEN in environment.
