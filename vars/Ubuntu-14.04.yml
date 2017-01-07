@@ -16,7 +16,8 @@ timesketch_pkg:
     - libscca
     - libscca-python
     - python-plaso
-## tsctl: ImportError: cannot import name current_app
+
+timesketch_gift_remove: []
 
 timesketch_pip_share: /usr/local/share/timesketch
 

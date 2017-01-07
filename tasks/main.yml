@@ -42,6 +42,8 @@
   command: "rsync -ci {{ timesketch_pip_share }}/timesketch.conf /etc/timesketch.conf creates=/etc/timesketch.conf"
   register: rsync_result
   changed_when: 'rsync_result.stdout != ""'
+  notify:
+    - restart supervisor
 
 - name: Ensure timesketch var directory exists
   file: dest="{{ timesketch_root }}" state=directory mode=0755 owner="{{ timesketch_user }}"

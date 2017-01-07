@@ -22,22 +22,29 @@
 ## debug: --disable_zeromq --profile --profiling_type memory
 #  command: "log2timeline.py --logfile /root/test.log dump.plaso /root/victoria-v8.sda1.img"
 #  command: "log2timeline.py --status_view window --logfile {{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}.log {{ timesketch_plaso_uploading_dir }}/{{ item.url | basename }}.plaso {{ timesketch_plaso_uploading_dir }}/{{ item.url | basename | regex_replace('\.(zip|tar.gz)$', '') }}"
-  command: "log2timeline.py --logfile {{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}.log {{ timesketch_plaso_uploading_dir }}/{{ item.url | basename }}.plaso {{ timesketch_plaso_uploading_dir }}/{{ item.url | basename | regex_replace('.(zip|tar.gz)$', '') }} creates={{ timesketch_plaso_uploading_dir }}/{{ item.url | basename }}.plaso"
+#  command: "log2timeline.py --logfile {{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}.log {{ timesketch_plaso_uploading_dir }}/{{ item.url | basename }}.plaso {{ timesketch_plaso_uploading_dir }}/{{ item.url | basename | regex_replace('.(zip|tar.gz)$', '') }} creates={{ timesketch_plaso_uploading_dir }}/{{ item.url | basename }}.plaso"
+  command: "log2timeline.py --logfile {{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}.log {{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}.plaso {{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }} creates={{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}.plaso"
   with_items: "{{ timesketch_process_url }}"
 #  with_items: "{{ timesketch_process_url + timesketch_process_files }}"
 
+- name: check version of psort
+  command: psort.py -V
+  register: psortversion
+  changed_when: false
+- debug: var=psortversion
 - name: process image with psort
 #  command: "psort.py -d --logfile {{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}-psort.log -o timesketch {{ timesketch_plaso_uploading_dir }}/{{ item.url | basename }}.plaso"
-  command: "psort.py -d --logfile {{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}-psort.log -o timesketch {{ timesketch_plaso_uploading_dir }}/{{ item.url | basename }}.plaso"
+  command: "psort.py -d --logfile {{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}-psort.log -o timesketch {{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}.plaso creates={{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}-psort.log"
   with_items: "{{ timesketch_process_url }}"
 #  with_items: "{{ timesketch_process_url + timesketch_process_files }}"
   ignore_errors: true
+  async: 1800
+#  async: 3600
+  poll: 60
 
 - name: retrieve plaso files on orchestrator
   fetch: "src={{ timesketch_plaso_uploading_dir }}/{{ item.url | basename }}.plaso dest={{ timesketch_retrieve_dir }} mode=0400"
   with_items: "{{ timesketch_process_url }}"
 #  with_items: "{{ timesketch_process_url + timesketch_process_files }}"
   when: timesketch_retrieve_plasofile is defined and timesketch_retrieve_plasofile
-  async: 3600
-  poll: 60
 

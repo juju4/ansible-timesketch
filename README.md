@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/juju4/ansible-timesketch.svg?branch=master)](https://travis-ci.org/juju4/ansible-timesketch)
 # TimeSketch ansible role
 
 Ansible role to setup TimeSketch and Plaso for Disk images Forensics Timeline
@@ -13,6 +14,7 @@ For other, from source
 It was tested on the following versions:
  * 1.9
  * 2.0
+ * 2.2
 
 ### Operating systems
 
@@ -27,7 +29,7 @@ For example
 ```
 - host: all
   roles:
-    - timesketch
+    - juju4.timesketch
 ```
 
 Server started on port 5000 by default.
@@ -78,7 +80,7 @@ $ cd packer
 $ packer build packer-*.json
 $ packer build -only=virtualbox-iso packer-*.json
 ## if you want to enable extra log
-$ PACKER_LOG=1 packer build packer-*.json
+$ PACKER_LOG_PATH="packerlog.txt" PACKER_LOG=1 packer build packer-*.json
 ## for digitalocean build, you need to export TOKEN in environment.
 ##  update json config on your setup and region.
 $ export DO_TOKEN=xxx
