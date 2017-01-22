@@ -19,7 +19,8 @@ env:
 #    ansible_extra_vars: ''
   - distribution: ubuntu
     version: 16.04
-    ansible_extra_vars: "-e timesketch_process=true"
+## https://github.com/travis-ci/travis-ci/issues/1444
+    ansible_extra_vars: "'-e timesketch_process=true'"
 #  - distribution: ubuntu
 #    version: 12.04
 #  - distribution: alpine
