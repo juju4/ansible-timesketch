@@ -33,7 +33,7 @@ suites:
   - name: default
     run_list:
     attributes:
-#  - name: default-process
-#    run_list:
-#    attributes:
+  - name: default-process
+    run_list:
+    attributes:
 
