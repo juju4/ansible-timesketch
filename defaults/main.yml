@@ -34,6 +34,7 @@ timesketch_plaso_uploading_backend: 'redis://127.0.0.1:6379'
 
 timesketch_process: false
 
+## plasofile must be the name of the uncompressed file
 timesketch_process_url:
 ## 312MB
 #    - { url: 'http://www.honeynet.org/challenge2011/downloads/victoria-v8.sda1.img.zip', checksum: 'sha256:d11568d3185d3eba1e3f99fd87a8ec67d35ae571fbf6e26f2ba5f51ff22fe98d', plasofile: 'victoria-v8.sda1' }

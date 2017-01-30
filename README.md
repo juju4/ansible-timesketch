@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/juju4/ansible-timesketch.svg?branch=master)](https://travis-ci.org/juju4/ansible-timesketch)
+[![Build Status - Master](https://travis-ci.org/juju4/ansible-timesketch.svg?branch=master)](https://travis-ci.org/juju4/ansible-timesketch)
+[![Build Status - Devel](https://travis-ci.org/juju4/ansible-timesketch.svg?branch=devel)](https://travis-ci.org/juju4/ansible-timesketch/branches)
 # TimeSketch ansible role
 
 Ansible role to setup TimeSketch and Plaso for Disk images Forensics Timeline
@@ -56,14 +57,14 @@ Default kitchen config (.kitchen.yml) is lxd-based, while (.kitchen.vagrant.yml)
 Once you ensured all necessary roles are present, You can test with:
 ```
 $ gem install kitchen-ansible kitchen-lxd_cli kitchen-sync kitchen-vagrant
-$ cd /path/to/roles/timesketch
+$ cd /path/to/roles/juju4.timesketch
 $ kitchen verify
 $ kitchen login
 $ KITCHEN_YAML=".kitchen.vagrant.yml" kitchen verify
 ```
 or
 ```
-$ cd /path/to/roles/timesketch/test/vagrant
+$ cd /path/to/roles/juju4.timesketch/test/vagrant
 $ vagrant up
 $ vagrant ssh
 ```
