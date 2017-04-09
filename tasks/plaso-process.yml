@@ -18,6 +18,8 @@
 
 - debug: var=timesketch_process_url
 - debug: var=timesketch_process_files
+- debug: msg="launching cmd{{ ':' }} log2timeline.py --logfile {{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}.log {{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}.plaso {{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}"
+  with_items: "{{ timesketch_process_url }}"
 - name: process image with log2timeline
 ## debug: --disable_zeromq --profile --profiling_type memory
 #  command: "log2timeline.py --logfile /root/test.log dump.plaso /root/victoria-v8.sda1.img"
@@ -32,6 +34,8 @@
   register: psortversion
   changed_when: false
 - debug: var=psortversion
+- debug: msg="launching cmd{{ ':' }} psort.py -d --logfile {{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}-psort.log -o timesketch {{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}.plaso"
+  with_items: "{{ timesketch_process_url }}"
 - name: process image with psort
 #  command: "psort.py -d --logfile {{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}-psort.log -o timesketch {{ timesketch_plaso_uploading_dir }}/{{ item.url | basename }}.plaso"
   command: "psort.py -d --logfile {{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}-psort.log -o timesketch {{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}.plaso creates={{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}-psort.log"
