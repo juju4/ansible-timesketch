@@ -36,7 +36,12 @@
   become: yes
 
 - name: install timesketch with pip
-  pip: name=timesketch
+  pip:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - timesketch
+    - timesketch-api-client
 
 - name: set up timesketch config
   command: "rsync -ci {{ timesketch_pip_share }}/timesketch.conf /etc/timesketch.conf creates=/etc/timesketch.conf"
@@ -88,6 +93,8 @@
   template: src=supervisord.ini dest={{ supervisor_confdir }}/{{ supervisor_targetconf }} mode=0644
   notify:
     - restart supervisor
+
+- include: backup-script.yml
 
 ## FIXME! ansible bug. not working on xenial
 - name: ensure supervisor service is enabled and started

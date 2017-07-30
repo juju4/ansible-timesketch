@@ -1,5 +1,7 @@
 ---
 
+scriptsdir: /usr/local/bin
+
 timesketch_root: /var/timesketch
 ## user to run daemon
 timesketch_user: "_timesketch"
