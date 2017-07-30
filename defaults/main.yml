@@ -1,6 +1,7 @@
 ---
 
 scriptsdir: /usr/local/bin
+backupdir: /var/_backup
 
 timesketch_root: /var/timesketch
 ## user to run daemon
