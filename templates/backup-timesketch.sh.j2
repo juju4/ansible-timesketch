@@ -10,7 +10,7 @@ dest={{ backupdir }}
 destfile=$dest/backup-timesketch-$date.tar.gz
 
 dirs="{{ timesketch_root }}"
-sudo -u postgres pg_dumpall > $dest/timesketch-db-all.sql
+sudo -u postgres pg_dumpall -c > $dest/timesketch-db-all.sql
 
 tar czf $destfile $dirs $dest/timesketch-db-all.sql
 rm $dest/timesketch-db-all.sql
