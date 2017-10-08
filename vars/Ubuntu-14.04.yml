@@ -16,6 +16,7 @@ timesketch_pkg:
     - libscca
     - libscca-python
     - python-plaso
+    - plaso-tools
 
 timesketch_gift_remove: []
 
