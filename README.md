@@ -16,10 +16,11 @@ It was tested on the following versions:
  * 1.9
  * 2.0
  * 2.2
+ * 2.5
 
 ### Operating systems
 
-Tested on Ubuntu Trusty and Xenial
+Tested on Ubuntu 14.04, 16.04 and 18.04
 Preliminary support for Centos7/Fedora24 buit l2tdevtools does not cleanly build for now.
 
 ## Example Playbook

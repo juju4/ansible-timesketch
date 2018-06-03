@@ -11,6 +11,10 @@ env:
 #  - distribution: centos
 #    version: 7
   - distribution: ubuntu
+    version: 18.04
+    ansible_extra_vars: ''
+## FIXME! travis+trusty stalling
+  - distribution: ubuntu
     version: 16.04
     ansible_extra_vars: ''
 ## FIXME! travis+trusty stalling
