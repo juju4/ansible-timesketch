@@ -93,6 +93,8 @@ $ packer build -only=digitalocean packer-*.json
 
 * Centos7 or Fedora24 platforms not functional currently
 
+* Support of Ubuntu 18.04 is tentative as based on Java10 support by ELK. See also [Elastic - Support Matrix](https://www.elastic.co/support/matrix#matrix_jvm) and [Logstash - Java 10 support](https://github.com/elastic/logstash/issues/9345)
+
 ## License
 
 BSD 2-clause
