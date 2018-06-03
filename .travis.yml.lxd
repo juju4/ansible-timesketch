@@ -12,10 +12,19 @@ env:
 #    version: 7
   - distribution: ubuntu
     version: 18.04
+    ansible_extra_vars: ''
+## FIXME! travis+trusty stalling
   - distribution: ubuntu
     version: 16.04
+    ansible_extra_vars: ''
+## FIXME! travis+trusty stalling
+#  - distribution: ubuntu
+#    version: 14.04
+#    ansible_extra_vars: ''
   - distribution: ubuntu
-    version: 14.04
+    version: 16.04
+## https://github.com/travis-ci/travis-ci/issues/1444
+    ansible_extra_vars: "'-e timesketch_process=true'"
 #  - distribution: ubuntu
 #    version: 12.04
 #  - distribution: alpine
@@ -74,19 +83,35 @@ before_install:
   - sudo -E su $USER -c "lxc config show run-${distribution}-${version//./}"
 ## FIXME! awk extraction is working in shell but not in travis... relying on global chmod as test ephemeral environment. DON'T USE IN PRODUCTION!
   - sudo -E su $USER -c "lxc config show run-${distribution}-${version//./} | awk -F'[\":,]' '/Hostid/ { print $13 }'"
-  - CUID=`sudo -E su $USER -c "lxc config show run-${distribution}-${version//./} | awk -F'[\":,]' '/Hostid/ { print $13 }'"`
+  - sudo -E su $USER -c "lxc config show run-${distribution}-${version//./} | sed -ne '/idmap.next/ s/.*\"Hostid\":\([0-9]*\),.*/\1/p'"
+#  - CUID=`sudo -E su $USER -c "lxc config show run-${distribution}-${version//./} | awk -F'[\":,]' '/idmap.next.*Hostid/ { print $13 }'"`
+  - CUID=`sudo -E su $USER -c "lxc config show run-${distribution}-${version//./} | sed -ne '/idmap.next/ s/.*\"Hostid\":\([0-9]*\),.*/\1/p'"`
   - "echo setfacl -Rm user:$CUID:rwx ${PWD%/*}"
-  - "setfacl -Rm user:$CUID:rwx ${PWD%/*}"
+  - "setfacl -Rm \"user:$CUID:rwx\" ${PWD%/*} || true"
   - sudo -E su $USER -c "lxc config device add run-${distribution}-${version//./} sharedroles disk path=/etc/ansible/roles source=${PWD%/*}"
   - sudo -E su $USER -c "lxc exec run-${distribution}-${version//./} -- mount"
   - sudo -E su $USER -c "lxc exec run-${distribution}-${version//./} -- pwd"
 
 script:
   - sudo -E su $USER -c "lxc exec run-${distribution}-${version//./} -- ansible-playbook -i inventory --syntax-check /etc/ansible/roles/juju4.timesketch/test/integration/default/default.yml"
-  - sudo -E su $USER -c "lxc exec run-${distribution}-${version//./} -- ansible-playbook -i inventory --connection=local --sudo -vvvv /etc/ansible/roles/juju4.timesketch/test/integration/default/default.yml"
+  - "echo -- Command: ansible-playbook -i inventory --connection=local --sudo -vvvv ${ansible_extra_vars} /etc/ansible/roles/juju4.timesketch/test/integration/default/default.yml"
+  - sudo -E su $USER -c "lxc exec run-${distribution}-${version//./} -- ansible-playbook -i inventory --connection=local --sudo -vvvv ${ansible_extra_vars} /etc/ansible/roles/juju4.timesketch/test/integration/default/default.yml"
 ## FIXME! Travis request: Build config file had a parse error: "mapping values are not allowed in this context at line 72 column 321".
 #  - sudo -E su $USER -c "lxc exec run-${distribution}-${version//./} -- ansible-playbook -i inventory /etc/ansible/roles/juju4.timesketch/test/integration/default/default.yml --connection=local --sudo | tee /tmp/idempotency.log | grep -q 'changed=0.*failed=0'  && (echo 'Idempotence test: pass' && exit 0) || (echo 'Idempotence test: fail' && cat /tmp/idempotency.log && exit 1)"
-  - sudo -E su $USER -c "lxc exec run-${distribution}-${version//./} -- time sh -x /etc/ansible/roles/juju4.timesketch/test/integration/default/serverspec/run-local-tests.sh"
+## FIXME! travis: The command "sudo -E su $USER -c "lxc exec run-${distribution}-${version//./} -- time sh -x /etc/ansible/roles/juju4.timesketch/test/integration/default/serverspec/run-local-tests.sh"" exited with 127.
+#  - sudo -E su $USER -c "lxc exec run-${distribution}-${version//./} -- time sh -x /etc/ansible/roles/juju4.timesketch/test/integration/default/serverspec/run-local-tests.sh"
+
+after_failure:
+  # Check what happened on systemd systems.
+  - sudo -E su $USER -c "lxc exec run-${distribution}-${version//./} -- systemctl -l --no-pager status elasticsearch"
+  - sudo -E su $USER -c "lxc exec run-${distribution}-${version//./} -- systemctl -l --no-pager status postgresql"
+  - sudo -E su $USER -c "lxc exec run-${distribution}-${version//./} -- systemctl -l --no-pager status supervisor"
+  - sudo -E su $USER -c "lxc exec run-${distribution}-${version//./} -- systemctl -l --no-pager status"
+  - sudo -E su $USER -c "lxc exec run-${distribution}-${version//./} -- journalctl -xe --no-pager"
+  - sudo -E su $USER -c "lxc exec run-${distribution}-${version//./} -- ls -l /var/log/elasticsearch"
+  - sudo -E su $USER -c "lxc exec run-${distribution}-${version//./} -- cat /var/log/elasticsearch/elasticsearch.log"
+
+after_script:
   - sudo -E su $USER -c "lxc stop run-${distribution}-${version//./} --force"
 
 notifications:
