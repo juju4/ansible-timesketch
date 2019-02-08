@@ -3,6 +3,7 @@
 - hosts: all
 #- hosts: test-kitchen
   vars:
+    - elasticsearch_repo_version: 6.x
     - elasticsearch_script_inline: true
     - postgresql_users:
         - name: timesketch

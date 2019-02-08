@@ -38,3 +38,6 @@ suites:
   - name: default-process
     run_list:
     attributes:
+  - name: default-HEAD
+    run_list:
+    attributes:

@@ -7,7 +7,4 @@
   when: ansible_distribution_release == 'trusty'
 
 - name: Ubuntu | Install Plaso
-  apt: name={{item}} state=present update_cache=yes
-  with_items:
-    - python-plaso
-
+  apt: name=python-plaso state=present update_cache=yes

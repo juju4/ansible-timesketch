@@ -9,7 +9,7 @@
 #  when: ansible_distribution == 'Fedora'
 - name: Include version-specific variables for RedHat
   include_vars: "RedHat-{{ ansible_distribution_version.split('.')[0] }}.yml"
-  when: ansible_os_family == "RedHat" or ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+  when: ansible_os_family == "RedHat"
 
 - name: Debian | requirements
   include: debian.yml
@@ -17,19 +17,22 @@
 
 - name: Redhat | requirements
   include: redhat.yml
-  when: ansible_os_family == "RedHat" or ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+  when: ansible_os_family == "RedHat"
 
 ## if not provided by gift ppa
 - name: plaso pip dependencies
-  pip: name={{ item }} state=present
-  with_items:
-    - artifacts
-    - bencode
+  pip:
+    name: ['artifacts', 'bencode']
+    state: present
   when: not (ansible_distribution_release == 'trusty' or ansible_distribution_release == 'xenial')
+  register: pkg_result
+  until: pkg_result is success
 
 - name: Bugfix trusty - force Flask-Login v0.3.2 - https://github.com/google/timesketch/pull/244
   pip: name=Flask-login version=0.3.2 state=present
   when: (ansible_distribution_release == 'trusty' or ansible_distribution_release == 'xenial')
+  register: pkg_result
+  until: pkg_result is success
 
 - name: check role user exists
   user: "name={{ timesketch_user }} home={{ timesketch_root }}"
@@ -37,11 +40,10 @@
 
 - name: install timesketch with pip
   pip:
-    name: "{{ item }}"
+    name: ['timesketch', 'timesketch-api-client']
     state: present
-  with_items:
-    - timesketch
-    - timesketch-api-client
+  register: pkg_result
+  until: pkg_result is success
 
 - name: set up timesketch config
   command: "rsync -ci {{ timesketch_pip_share }}/timesketch.conf /etc/timesketch.conf creates=/etc/timesketch.conf"
@@ -57,13 +59,18 @@
   register: rand
   changed_when: False
 - name: inserting secret in timesketch config
-  replace: dest=/etc/timesketch.conf regexp="SECRET_KEY = u''" replace="SECRET_KEY = u'{{ rand.stdout }}'"
+  replace:
+    dest: /etc/timesketch.conf
+    regexp: "SECRET_KEY = u''"
+    replace: "SECRET_KEY = u'{{ rand.stdout }}'"
   notify:
     - restart supervisor
   no_log: true
 - name: configuring db in timesketch config
-#  replace: dest=/etc/timesketch.conf regexp="SQLALCHEMY_DATABASE_URI = 'postgresql://<USERNAME>:<PASSWORD>/timesketch'" replace="SQLALCHEMY_DATABASE_URI = u'sqlite:///{{ timesketch_root }}/database.db'"
-  replace: dest=/etc/timesketch.conf regexp="SQLALCHEMY_DATABASE_URI = 'postgresql://.*'" replace="SQLALCHEMY_DATABASE_URI = 'postgresql://{{ timesketch_db_user }}:{{ timesketch_db_pass }}@{{ timesketch_db_host }}:{{ timesketch_db_port }}/{{ timesketch_db }}'"
+  replace:
+    dest: /etc/timesketch.conf
+    regexp: "SQLALCHEMY_DATABASE_URI = 'postgresql://.*'"
+    replace: "SQLALCHEMY_DATABASE_URI = 'postgresql://{{ timesketch_db_user }}:{{ timesketch_db_pass }}@{{ timesketch_db_host }}:{{ timesketch_db_port }}/{{ timesketch_db }}'"
   notify:
     - restart supervisor
 
@@ -105,4 +112,3 @@
 
 - include: plaso-process.yml
   when: timesketch_process is defined and timesketch_process
-

@@ -1,11 +1,11 @@
 ---
 
 - name: Redhat | timesketch packages install
-  yum: name={{item}} state=present update_cache=yes
-  with_items: "{{ timesketch_pkg }}"
+  yum: name={{ timesketch_pkg }} state=present update_cache=yes
+  register: pkg_result
+  until: pkg_result is success
 
 #- name: Redhat | Ensure yum-cron is running and enabled on boot.
 #  service: name=yum-cron state=started enabled=yes
 
 - include: plaso-source.yml
-

@@ -11,7 +11,9 @@
     - restart supervisor
 
 - name: set supervisor config for celery
-  template: src=supervisord-celery.ini dest={{ supervisor_confdir }}/timesketch-celery.{{ supervisor_extconf }} mode=0644
+  template:
+    src: supervisord-celery.ini
+    dest: "{{ supervisor_confdir }}/timesketch-celery.{{ supervisor_extconf }}"
+    mode: '0644'
   notify:
     - restart supervisor
-

@@ -16,4 +16,3 @@ supervisor_confdir: /etc/supervisor/conf.d
 supervisor_targetconf: timesketch.conf
 supervisor_extconf: conf
 supervisor_service: supervisor
-
