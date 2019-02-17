@@ -87,8 +87,9 @@
 - debug: var=timesketch_userlist
 ## FIXME! idempotent? overwrite any existing user
 - name: add timesketch user
-#  command: "tsctl add_user -u {{ item.u }} -p {{ item.p }} creates=/var/timesketch/database.db"
-  command: "tsctl add_user -u {{ item.u }} -p {{ item.p }}"
+  command: "tsctl add_user --username {{ item.u }} --password {{ item.p }}"
+#  args:
+#    creates: /var/timesketch/database.db
   with_items: "{{ timesketch_userlist }}"
   become: yes
   become_user: "{{ timesketch_user }}"
