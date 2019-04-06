@@ -33,6 +33,8 @@ timesketch_pkg:
     - python34-setuptools
     - python-test
     - sqlite-devel
+    - unzip
+    - tar
 
 timesketch_gift_remove: []
 

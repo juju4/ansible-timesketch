@@ -8,6 +8,7 @@ timesketch_pkg:
     - libffi-dev
     - supervisor
     - unzip
+    - tar
 ## https://github.com/google/timesketch/pull/244
 #    - python-flask
 ## from gift ppa

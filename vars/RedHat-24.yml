@@ -42,6 +42,8 @@ timesketch_pkg:
     - autoconf
     - libuuid-devel
     - zlib-static
+    - unzip
+    - tar
 
 timesketch_pip_share: /usr/share/timesketch
 

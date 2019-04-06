@@ -10,6 +10,7 @@ timesketch_pkg:
 ## dont conflict with gift plaso
 #    - plaso
     - unzip
+    - tar
 ## from gift ppa. plaso in ubuntu official and gift
     - python-artifacts
     - python-bencode
