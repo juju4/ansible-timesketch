@@ -44,6 +44,7 @@ timesketch_pkg:
     - zlib-static
     - unzip
     - tar
+    - bzip2
 
 timesketch_pip_share: /usr/share/timesketch
 

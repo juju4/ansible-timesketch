@@ -9,6 +9,7 @@ timesketch_pkg:
     - supervisor
     - unzip
     - tar
+    - bzip2
 ## https://github.com/google/timesketch/pull/244
 #    - python-flask
 ## from gift ppa

@@ -11,6 +11,7 @@ timesketch_pkg:
 #    - plaso
     - unzip
     - tar
+    - bzip2
 ## from gift ppa. plaso in ubuntu official and gift
     - python-artifacts
     - python-bencode

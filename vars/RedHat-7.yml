@@ -35,6 +35,7 @@ timesketch_pkg:
     - sqlite-devel
     - unzip
     - tar
+    - bzip2
 
 timesketch_gift_remove: []
 

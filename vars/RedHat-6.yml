@@ -9,6 +9,7 @@ timesketch_pkg:
     - python-devel
     - unzip
     - tar
+    - bzip2
 
 timesketch_pip_share: /usr/share/timesketch
 
