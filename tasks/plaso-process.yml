@@ -4,14 +4,14 @@
     - name: url | retrieve images from url
       get_url:
         url: "{{ item.url }}"
-        dest: "{{ timesketch_plaso_uploading_dir }}/{{ item.url | basename }}"
+        dest: "{{ timesketch_plaso_uploading_dir }}/{{ item.url | basename | regex_replace('?.*$', '') }}"
         mode: '0644'
         checksum: "{{ item.checksum }}"
       with_items: "{{ timesketch_process_url }}"
 
     - name: url | uncompress images from url
       unarchive:
-        src: "{{ timesketch_plaso_uploading_dir }}/{{ item.url | basename }}"
+        src: "{{ timesketch_plaso_uploading_dir }}/{{ item.url | basename | regex_replace('?.*$', '') }}"
         dest: "{{ timesketch_plaso_uploading_dir }}"
         copy: no
       with_items: "{{ timesketch_process_url }}"
