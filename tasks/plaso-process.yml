@@ -21,7 +21,7 @@
     - name: file | retrieve images from orchestrator
       copy:
         src: "{{ item.url }}"
-        dest: "{{ timesketch_plaso_uploading_dir }}/{{ item.url | basename }}"
+        dest: "{{ timesketch_plaso_uploading_dir }}/{{ item.url | basename | regex_replace('?.*$', '') }}"
         mode: '0644'
       with_items: "{{ timesketch_process_files }}"
   when: timesketch_process_files is defined and timesketch_process_files != []
