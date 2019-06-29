@@ -1,7 +1,6 @@
 ---
 
 - hosts: all
-#- hosts: test-kitchen
   vars:
     - elasticsearch_script_inline: true
     - postgresql_users:
@@ -13,4 +12,3 @@
     - timesketch_process: true
   roles:
     - juju4.timesketch
-
