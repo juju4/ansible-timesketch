@@ -10,9 +10,10 @@ env:
 #    version: 6
 #  - distribution: centos
 #    version: 7
-#  - distribution: ubuntu
-#    version: 18.04
-#    ansible_extra_vars: ''
+  - distribution: ubuntu
+    version: 18.04
+    ansible_extra_vars: ''
+    suite: default
   - distribution: ubuntu
     version: 16.04
     ansible_extra_vars: ''
@@ -30,6 +31,10 @@ env:
 #    version: 12.04
 #  - distribution: alpine
 #    version: 3.4
+  - distribution: ubuntu
+    version: 18.04
+    ansible_extra_vars: ''
+    suite: default-HEAD
   - distribution: ubuntu
     version: 16.04
     ansible_extra_vars: ''
