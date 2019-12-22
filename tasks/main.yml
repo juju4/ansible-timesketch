@@ -66,14 +66,15 @@
   command: "openssl rand -base64 32"
   register: rand
   changed_when: False
+  no_log: "{{ timesketch_no_log | default(true) }}"
 - name: inserting secret in timesketch config
   replace:
     dest: "{{ timesketch_conf }}"
-    regexp: "SECRET_KEY = u''"
-    replace: "SECRET_KEY = u'{{ rand.stdout }}'"
+    regexp: "SECRET_KEY = '.*'"
+    replace: "SECRET_KEY = '{{ rand.stdout }}'"
   notify:
     - restart supervisor
-  no_log: true
+  no_log: "{{ timesketch_no_log | default(true) }}"
 - name: configuring db in timesketch config
   replace:
     dest: "{{ timesketch_conf }}"
@@ -81,6 +82,7 @@
     replace: "SQLALCHEMY_DATABASE_URI = 'postgresql://{{ timesketch_db_user }}:{{ timesketch_db_pass }}@{{ timesketch_db_host }}:{{ timesketch_db_port }}/{{ timesketch_db }}'"
   notify:
     - restart supervisor
+  no_log: "{{ timesketch_no_log | default(true) }}"
 
 - name: update elasticsearch settings in timesketch.conf
   replace:
