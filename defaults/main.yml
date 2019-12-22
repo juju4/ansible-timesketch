@@ -46,7 +46,7 @@ timesketch_process_url:
 # https://www.cfreds.nist.gov/
 #    - { url: 'https://www.cfreds.nist.gov/FileCarving/Images/L0_Documents.dd.bz2', checksum: 'sha256:a3bda185c710d326c172ea3b078d64eeb976efe04c244fecd10a15d4886b3500', plasofile: 'L0_Documents.dd' }
 # http://dftt.sourceforge.net/
-     - { url: 'http://prdownloads.sourceforge.net/dftt/2-kwsrch-fat.zip?download', checksum: 'sha256:393fe92862994ad3ac7394a00e887fa42a4a9e8d137da986b9535663493925dd', plasofile: '2-kwsrch-fat/fat-img-kw.dd' }
+        - { url: 'http://downloads.sourceforge.net/project/dftt/Test%20Images/2_%20FAT%20Keyword%20%231/2-kwsrch-fat.zip?download=', checksum: 'sha256:393fe92862994ad3ac7394a00e887fa42a4a9e8d137da986b9535663493925dd', plasofile: '2-kwsrch-fat/fat-img-kw.dd' }
 
 ## FIXME! not processed currently
 ## from orchestrator (url is src path, checksum is unused as copy only has a checksum result option but no argument)
