@@ -29,13 +29,18 @@
   until: pkg_result is success
 
 - name: Bugfix trusty - force Flask-Login v0.3.2 - https://github.com/google/timesketch/pull/244
-  pip: name=Flask-login version=0.3.2 state=present
+  pip:
+    name: Flask-login
+    version: 0.3.2
+    state: present
   when: (ansible_distribution_release == 'trusty' or ansible_distribution_release == 'xenial')
   register: pkg_result
   until: pkg_result is success
 
 - name: check role user exists
-  user: "name={{ timesketch_user }} home={{ timesketch_root }}"
+  user:
+    name: "{{ timesketch_user }}"
+    home: "{{ timesketch_root }}"
   become: yes
 
 - name: install timesketch with pip
@@ -63,7 +68,11 @@
     - restart supervisor
 
 - name: Ensure timesketch var directory exists
-  file: dest="{{ timesketch_root }}" state=directory mode=0755 owner="{{ timesketch_user }}"
+  file:
+    dest: "{{ timesketch_root }}"
+    state: directory
+    mode: '0755'
+    owner: "{{ timesketch_user }}"
 - name: generating random secret
   command: "openssl rand -base64 32"
   register: rand
