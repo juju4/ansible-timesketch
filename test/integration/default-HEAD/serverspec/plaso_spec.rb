@@ -11,7 +11,7 @@ describe file('/usr/bin/log2timeline.py') do
 end
 
 describe command('log2timeline.py -V') do
-  its(:stderr) { should match /plaso - log2timeline version/ }
+  its(:stdout) { should match /plaso - log2timeline version/ }
 end
 
 describe command('psort.py -o timesketch -h') do
