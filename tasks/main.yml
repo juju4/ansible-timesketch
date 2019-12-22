@@ -49,7 +49,9 @@
   file:
     dest: /etc/timesketch
     state: directory
-    mode: '0700'
+    mode: '0750'
+    owner: "{{ timesketch_user }}"
+    group: root
 
 - name: set up timesketch config
   command: "rsync -ci {{ timesketch_pip_share }}/timesketch.conf {{ timesketch_conf }}"
