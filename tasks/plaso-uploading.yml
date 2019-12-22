@@ -1,7 +1,10 @@
 ---
 
 - name: Enable plaso uploading in timesketch
-  replace: dest=/etc/timesketch.conf regexp="{{ item.re }}" replace="{{ item.rep }}"
+  replace:
+    dest: "{{ timesketch_conf }}"
+    regexp: "{{ item.re }}"
+    replace: "{{ item.rep }}"
   with_items:
     - { re: '^UPLOAD_ENABLED = .*', rep: 'UPLOAD_ENABLED = True' }
     - { re: "^UPLOAD_FOLDER = u'/tmp'", rep: "UPLOAD_FOLDER = u'{{ timesketch_plaso_uploading_dir }}'" }

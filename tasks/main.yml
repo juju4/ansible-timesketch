@@ -52,9 +52,9 @@
     mode: '0700'
 
 - name: set up timesketch config
-  command: "rsync -ci {{ timesketch_pip_share }}/timesketch.conf /etc/timesketch/timesketch.conf"
+  command: "rsync -ci {{ timesketch_pip_share }}/timesketch.conf {{ timesketch_conf }}"
   args:
-    creates: /etc/timesketch/timesketch.conf
+    creates: "{{ timesketch_conf }}"
   register: rsync_result
   changed_when: 'rsync_result.stdout != ""'
   notify:
@@ -68,7 +68,7 @@
   changed_when: False
 - name: inserting secret in timesketch config
   replace:
-    dest: /etc/timesketch.conf
+    dest: "{{ timesketch_conf }}"
     regexp: "SECRET_KEY = u''"
     replace: "SECRET_KEY = u'{{ rand.stdout }}'"
   notify:
@@ -76,14 +76,17 @@
   no_log: true
 - name: configuring db in timesketch config
   replace:
-    dest: /etc/timesketch.conf
+    dest: "{{ timesketch_conf }}"
     regexp: "SQLALCHEMY_DATABASE_URI = 'postgresql://.*'"
     replace: "SQLALCHEMY_DATABASE_URI = 'postgresql://{{ timesketch_db_user }}:{{ timesketch_db_pass }}@{{ timesketch_db_host }}:{{ timesketch_db_port }}/{{ timesketch_db }}'"
   notify:
     - restart supervisor
 
 - name: update elasticsearch settings in timesketch.conf
-  replace: dest=/etc/timesketch.conf regexp="{{ item.re }}" replace="{{ item.rep }}"
+  replace:
+    dest: "{{ timesketch_conf }}"
+    regexp: "{{ item.re }}"
+    replace: "{{ item.rep }}"
   with_items:
     - { re: "^ELASTIC_HOST = u'127.0.0.1'", rep: "ELASTIC_HOST = u'{{ timesketch_elastic_host }}'" }
     - { re: '^ELASTIC_PORT = 9200', rep: "ELASTIC_PORT = {{ timesketch_elastic_port }}" }
