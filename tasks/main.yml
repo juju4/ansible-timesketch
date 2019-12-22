@@ -106,6 +106,16 @@
   notify:
     - restart supervisor
 
+- name: update neo4j settings in timesketch.conf
+  replace:
+    dest: "{{ timesketch_conf }}"
+    regexp: "{{ item.re }}"
+    replace: "{{ item.rep }}"
+  with_items:
+    - { re: "^NEO4J_PASSWORD = '.*'", rep: "NEO4J_PASSWORD = '{{ neo4j_password | default('neo4j') }}'" }
+  notify:
+    - restart supervisor
+
 - include: configure-postgresql.yml
 
 - debug: var=timesketch_userlist
