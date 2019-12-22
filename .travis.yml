@@ -33,6 +33,7 @@ before_install:
   - env
   - pwd
   - find -ls
+  - sysctl vm.max_map_count
 ## use appropriate role path and not github name
   - "[ -f get-dependencies.sh ] && sh -x get-dependencies.sh"
   - echo "deb http://archive.ubuntu.com/ubuntu xenial-backports main restricted universe multiverse" | sudo tee /etc/apt/sources.list.d/xenial-backports.list
