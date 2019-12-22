@@ -101,8 +101,8 @@
     regexp: "{{ item.re }}"
     replace: "{{ item.rep }}"
   with_items:
-    - { re: "^ELASTIC_HOST = u'127.0.0.1'", rep: "ELASTIC_HOST = u'{{ timesketch_elastic_host }}'" }
-    - { re: '^ELASTIC_PORT = 9200', rep: "ELASTIC_PORT = {{ timesketch_elastic_port }}" }
+    - { re: "^ELASTIC_HOST = '.*'", rep: "ELASTIC_HOST = '{{ timesketch_elastic_host }}'" }
+    - { re: '^ELASTIC_PORT = .*', rep: "ELASTIC_PORT = {{ timesketch_elastic_port }}" }
   notify:
     - restart supervisor
 
