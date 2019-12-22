@@ -45,8 +45,16 @@
   register: pkg_result
   until: pkg_result is success
 
+- name: Ensure /etc/timesketch directory exists
+  file:
+    dest: /etc/timesketch
+    state: directory
+    mode: '0700'
+
 - name: set up timesketch config
-  command: "rsync -ci {{ timesketch_pip_share }}/timesketch.conf /etc/timesketch.conf creates=/etc/timesketch.conf"
+  command: "rsync -ci {{ timesketch_pip_share }}/timesketch.conf /etc/timesketch/timesketch.conf"
+  args:
+    creates: /etc/timesketch/timesketch.conf
   register: rsync_result
   changed_when: 'rsync_result.stdout != ""'
   notify:
