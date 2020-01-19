@@ -13,7 +13,7 @@ timesketch_pkg:
     - tar
     - bzip2
 ## from gift ppa. plaso in ubuntu official and gift
-#    - python-artifacts
+    - python-artifacts
     - python-bencode
     - libscca
     - libscca-python
