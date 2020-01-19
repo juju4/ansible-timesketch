@@ -13,20 +13,10 @@ env:
   - distribution: ubuntu
     version: 18.04
     suite: default
-  - distribution: ubuntu
-    version: 16.04
-    suite: default
-#  - distribution: ubuntu
-#    version: 14.04
-#  - distribution: ubuntu
-#    version: 12.04
 #  - distribution: alpine
 #    version: 3.4
   - distribution: ubuntu
     version: 18.04
-    suite: default-HEAD
-  - distribution: ubuntu
-    version: 16.04
     suite: default-HEAD
 
 before_install:
