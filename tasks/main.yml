@@ -52,9 +52,13 @@
 
 - name: install timesketch with pip
   pip:
-    name: ['timesketch', 'timesketch-api-client']
+    name: "{{ item.n }}"
+    version: "{{ item.v }}"
     state: present
     executable: "{{ timesketch_python_pip }}"
+  with_items:
+    - { n: timesketch, v: "{{ timesketch_version }}" }
+    - { n: timesketch-api-client, v: ">=20191220" }
   register: pkg_result
   until: pkg_result is success
 
