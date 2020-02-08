@@ -87,6 +87,7 @@
   template:
     src: timesketch.conf.j2
     dest: "{{ timesketch_conf }}"
+    owner: "{{ timesketch_user }}"
     mode: '0600'
   notify:
     - restart supervisor
