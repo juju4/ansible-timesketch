@@ -66,14 +66,6 @@
     owner: "{{ timesketch_user }}"
     group: root
 
-- name: set up timesketch config
-  command: "rsync -ci {{ timesketch_pip_share }}/timesketch.conf {{ timesketch_conf }}"
-  args:
-    creates: "{{ timesketch_conf }}"
-  register: rsync_result
-  changed_when: 'rsync_result.stdout != ""'
-  notify:
-    - restart supervisor
 
 - name: Ensure timesketch var directory exists
   file:
@@ -86,41 +78,12 @@
   register: rand
   changed_when: False
   no_log: "{{ timesketch_no_log | default(true) }}"
-- name: inserting secret in timesketch config
-  replace:
-    dest: "{{ timesketch_conf }}"
-    regexp: "SECRET_KEY = '.*'"
-    replace: "SECRET_KEY = '{{ rand.stdout }}'"
-  notify:
-    - restart supervisor
-  no_log: "{{ timesketch_no_log | default(true) }}"
-- name: configuring db in timesketch config
-  replace:
-    dest: "{{ timesketch_conf }}"
-    regexp: "SQLALCHEMY_DATABASE_URI = 'postgresql://.*'"
-    replace: "SQLALCHEMY_DATABASE_URI = 'postgresql://{{ timesketch_db_user }}:{{ timesketch_db_pass }}@{{ timesketch_db_host }}:{{ timesketch_db_port }}/{{ timesketch_db }}'"
-  notify:
-    - restart supervisor
-  no_log: "{{ timesketch_no_log | default(true) }}"
 
-- name: update elasticsearch settings in timesketch.conf
-  replace:
-    dest: "{{ timesketch_conf }}"
-    regexp: "{{ item.re }}"
-    replace: "{{ item.rep }}"
-  with_items:
-    - { re: "^ELASTIC_HOST = '.*'", rep: "ELASTIC_HOST = '{{ timesketch_elastic_host }}'" }
-    - { re: '^ELASTIC_PORT = .*', rep: "ELASTIC_PORT = {{ timesketch_elastic_port }}" }
-  notify:
-    - restart supervisor
-
-- name: update neo4j settings in timesketch.conf
-  replace:
-    dest: "{{ timesketch_conf }}"
-    regexp: "{{ item.re }}"
-    replace: "{{ item.rep }}"
-  with_items:
-    - { re: "^NEO4J_PASSWORD = '.*'", rep: "NEO4J_PASSWORD = '{{ neo4j_password | default('neo4j') }}'" }
+- name: set up timesketch config
+  template:
+    src: timesketch.conf.j2
+    dst: "{{ timesketch_conf }}"
+    mode: '0600'
   notify:
     - restart supervisor
 
