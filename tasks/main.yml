@@ -30,7 +30,7 @@
     name: ['artifacts', 'bencode']
     state: present
     executable: "{{ timesketch_python_pip }}"
-  when: (ansible_distribution == 'Ubuntu' and ansible_distribution_major_version | int >= 14)
+  when: not (ansible_distribution == 'Ubuntu' and ansible_distribution_major_version | int >= 14)
   register: pkg_result
   until: pkg_result is success
 
