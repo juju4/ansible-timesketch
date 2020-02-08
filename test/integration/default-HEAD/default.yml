@@ -10,7 +10,6 @@
           db: timesketchdb
     - postgresql_databases:
         - name: timesketchdb
-    - neo4j_password: timesketch_neo4j_change_me
     - timesketch_process: false
     - timesketch_plaso_version: HEAD
     - timesketch_l2tdevtools_version: HEAD

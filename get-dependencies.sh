@@ -15,7 +15,6 @@ fi
 [ ! -d $rolesdir/geerlingguy.postgresql ] && git clone https://github.com/juju4/ansible-role-postgresql.git $rolesdir/geerlingguy.postgresql
 [ ! -d $rolesdir/juju4.gift ] && git clone https://github.com/juju4/ansible-gift.git $rolesdir/juju4.gift
 [ ! -d $rolesdir/geerlingguy.redis ] && git clone https://github.com/geerlingguy/ansible-role-redis.git $rolesdir/geerlingguy.redis
-[ ! -d $rolesdir/kevincoakley.neo4j ] && git clone https://github.com/kevincoakley/ansible-role-neo4j.git $rolesdir/kevincoakley.neo4j
 ## galaxy naming: kitchen fails to transfer symlink folder
 #[ ! -e $rolesdir/juju4.timesketch ] && ln -s ansible-timesketch $rolesdir/juju4.timesketch
 [ ! -e $rolesdir/juju4.timesketch ] && cp -R $rolesdir/ansible-timesketch $rolesdir/juju4.timesketch

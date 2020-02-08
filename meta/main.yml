@@ -21,5 +21,4 @@ dependencies:
   - geerlingguy.elasticsearch
   - geerlingguy.postgresql
   - geerlingguy.redis
-  - kevincoakley.neo4j
   - juju4.gift
