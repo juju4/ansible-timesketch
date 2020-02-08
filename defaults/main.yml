@@ -3,7 +3,7 @@
 scriptsdir: /usr/local/bin
 backupdir: /var/_backup
 
-timesketch_version: 20200131
+timesketch_version: 20200131.post3
 timesketch_root: /var/timesketch
 timesketch_conf: /etc/timesketch/timesketch.conf
 ## user to run daemon
