@@ -7,6 +7,7 @@ timesketch_pkg:
     - python-dev
     - libffi-dev
     - supervisor
+    - python3-psycopg2
 ## dont conflict with gift plaso
 #    - plaso
     - unzip
