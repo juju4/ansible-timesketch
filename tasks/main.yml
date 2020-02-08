@@ -19,11 +19,17 @@
   include: redhat.yml
   when: ansible_os_family == "RedHat"
 
+- name: Ensure right python is present
+  package:
+    name: "{% if timesketch_python_bin == 'python2' %}{{ python2_deps }}{% else %}{{ python_deps }}{% endif %}"
+    state: present
+
 ## if not provided by gift ppa
 - name: plaso pip dependencies
   pip:
     name: ['artifacts', 'bencode']
     state: present
+    executable: "{{ timesketch_python_pip }}"
   when: not (ansible_distribution_release == 'trusty' or ansible_distribution_release == 'xenial')
   register: pkg_result
   until: pkg_result is success
@@ -33,6 +39,7 @@
     name: Flask-login
     version: 0.3.2
     state: present
+    executable: "{{ timesketch_python_pip }}"
   when: (ansible_distribution_release == 'trusty' or ansible_distribution_release == 'xenial')
   register: pkg_result
   until: pkg_result is success
@@ -47,6 +54,7 @@
   pip:
     name: ['timesketch', 'timesketch-api-client']
     state: present
+    executable: "{{ timesketch_python_pip }}"
   register: pkg_result
   until: pkg_result is success
 

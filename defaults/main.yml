@@ -12,6 +12,9 @@ timesketch_listen: 127.0.0.1
 #timesketch_listen: 0.0.0.0
 timesketch_port: 5000
 
+timesketch_python_bin: python3
+timesketch_python_pip: pip3
+
 ## an elasticsearch db is mandatory for user creation
 ## if you put false here, ensure it is available.
 ## it's recommended to use external role like geerlingguy.elasticsearch

@@ -20,8 +20,8 @@
   args:
     chdir: "{{ timesketch_pip_share }}/l2tdevtools"
   with_items:
-    - "python tools/build.py download"
-    - "python tools/build.py rpm"
+    - "{{ timesketch_python_bin }} tools/build.py download"
+    - "{{ timesketch_python_bin }} tools/build.py rpm"
   environment:
     PYTHONPATH: .
 - name: install built rpm

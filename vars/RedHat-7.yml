@@ -47,3 +47,15 @@ supervisor_extconf: ini
 supervisor_service: supervisord
 
 postgres_confdir: /var/lib/pgsql/data
+
+python2_deps:
+  - python
+  - python-devel
+  - python-pip
+  - gcc
+
+python_deps:
+  - python3
+  - python3-devel
+  - python3-pip
+  - gcc
