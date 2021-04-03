@@ -12,19 +12,19 @@ provisioner:
   name: ansible_playbook
   roles_path: ../
   hosts: all
-#  ansible_verbose: true
+  # ansible_verbose: true
   ansible_verbose: false
   ansible_verbosity: 4
   ansible_extra_flags: <%= ENV['ANSIBLE_EXTRA_FLAGS'] %>
   enable_yum_epel: true
   ansible_connection: ssh
-#  name: chef_solo
+  # name: chef_solo
 
 platforms:
   - name: ubuntu-20.04
   - name: ubuntu-18.04
-#  - name: debian-7.0.
-#  - name: centos-7.1
+  # - name: debian-7.0.
+  # - name: centos-7.1
 
 suites:
   - name: default

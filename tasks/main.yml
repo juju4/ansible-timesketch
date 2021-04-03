@@ -4,9 +4,9 @@
 - name: Include version-specific variables for Ubuntu.
   include_vars: "{{ ansible_distribution }}-{{ ansible_distribution_version }}.yml"
   when: ansible_distribution == 'Ubuntu'
-#- name: Include OS-specific variables for Fedora.
-#  include_vars: "{{ ansible_distribution }}.yml"
-#  when: ansible_distribution == 'Fedora'
+# - name: Include OS-specific variables for Fedora.
+#   include_vars: "{{ ansible_distribution }}.yml"
+#   when: ansible_distribution == 'Fedora'
 - name: Include version-specific variables for RedHat
   include_vars: "RedHat-{{ ansible_distribution_version.split('.')[0] }}.yml"
   when: ansible_os_family == "RedHat"
@@ -94,18 +94,19 @@
 
 - include: configure-postgresql.yml
 
-- debug: var=timesketch_userlist
+- name: Debug | timesketch_userlist
+  debug: var=timesketch_userlist
 ## FIXME! idempotent? overwrite any existing user
-- name: add timesketch user
+- name: add timesketch user  # noqa no-changed-when
   command: "tsctl add_user --username {{ item.u }} --password {{ item.p }}"
-#  args:
-#    creates: /var/timesketch/database.db
+  # args:
+  #   creates: /var/timesketch/database.db
   with_items: "{{ timesketch_userlist }}"
   become: yes
   become_user: "{{ timesketch_user }}"
 
-#- name: start timesketch
-#  command: "tsctl runserver"
+# - name: start timesketch
+#   command: "tsctl runserver"
 
 - name: set supervisor config to manage timesketch
   template: src=supervisord.ini dest={{ supervisor_confdir }}/{{ supervisor_targetconf }} mode=0644

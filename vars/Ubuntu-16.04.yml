@@ -1,46 +1,46 @@
 ---
 
 timesketch_pkg:
-    - git
-    - python
-    - python-pip
-    - python-dev
-    - libffi-dev
-    - supervisor
-    - python3-psycopg2
-## dont conflict with gift plaso
-#    - plaso
-    - unzip
-    - tar
-    - bzip2
-## from gift ppa. plaso in ubuntu official and gift
-    - python-artifacts
-    - python-bencode
-    - libscca
-    - libscca-python
-    - python-plaso
-    - plaso-tools
-    - libesedb-python
-    - libevt-python
-    - libevtx-python
-    - libfwsi-python
-    - liblnk-python
-    - libmsiecf-python
-    - libolecf-python
-    - libregf-python
+  - git
+  - python
+  - python-pip
+  - python-dev
+  - libffi-dev
+  - supervisor
+  - python3-psycopg2
+  ## dont conflict with gift plaso
+  # - plaso
+  - unzip
+  - tar
+  - bzip2
+  ## from gift ppa. plaso in ubuntu official and gift
+  - python-artifacts
+  - python-bencode
+  - libscca
+  - libscca-python
+  - python-plaso
+  - plaso-tools
+  - libesedb-python
+  - libevt-python
+  - libevtx-python
+  - libfwsi-python
+  - liblnk-python
+  - libmsiecf-python
+  - libolecf-python
+  - libregf-python
 
 timesketch_gift_remove:
-## can lock itself, so sometimes better to uninstall all and restart
-#    - python-plaso
-#    - python-dfwinreg
-    - python-libolecf
-    - python-libmsiecf
-    - python-liblnk
-    - python-libfwsi
-    - python-libevt
-    - python-libevtx
-    - python-libesedb
-    - python-libregf
+  ## can lock itself, so sometimes better to uninstall all and restart
+  # - python-plaso
+  # - python-dfwinreg
+  - python-libolecf
+  - python-libmsiecf
+  - python-liblnk
+  - python-libfwsi
+  - python-libevt
+  - python-libevtx
+  - python-libesedb
+  - python-libregf
 
 timesketch_pip_share: /usr/local/share/timesketch
 

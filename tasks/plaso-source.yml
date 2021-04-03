@@ -15,7 +15,7 @@
 ## rpm build might night to patch l2tdevtools/build_helper.py _BUILD_DEPENDENCIES
 ## centos7: s/python3-/python34-/g
 ## Fedora24: s/python-/python2-/g
-- name: download and build with l2tdevtools
+- name: download and build with l2tdevtools  # noqa no-changed-when
   command: "{{ item }}"
   args:
     chdir: "{{ timesketch_pip_share }}/l2tdevtools"

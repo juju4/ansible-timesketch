@@ -1,24 +1,24 @@
 ---
 
 timesketch_pkg:
-    - git
-    - python
-    - python-pip
-    - python-dev
-    - libffi-dev
-    - supervisor
-    - unzip
-    - tar
-    - bzip2
-## https://github.com/google/timesketch/pull/244
-#    - python-flask
-## from gift ppa
-    - python-artifacts
-    - python-bencode
-    - libscca
-    - libscca-python
-    - python-plaso
-    - plaso-tools
+  - git
+  - python
+  - python-pip
+  - python-dev
+  - libffi-dev
+  - supervisor
+  - unzip
+  - tar
+  - bzip2
+  ## https://github.com/google/timesketch/pull/244
+  # - python-flask
+  ## from gift ppa
+  - python-artifacts
+  - python-bencode
+  - libscca
+  - libscca-python
+  - python-plaso
+  - plaso-tools
 
 timesketch_gift_remove: []
 

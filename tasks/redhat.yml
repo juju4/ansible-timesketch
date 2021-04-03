@@ -5,7 +5,7 @@
   register: pkg_result
   until: pkg_result is success
 
-#- name: Redhat | Ensure yum-cron is running and enabled on boot.
-#  service: name=yum-cron state=started enabled=yes
+# - name: Redhat | Ensure yum-cron is running and enabled on boot.
+#   service: name=yum-cron state=started enabled=yes
 
 - include: plaso-source.yml

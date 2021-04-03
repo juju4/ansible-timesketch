@@ -1,15 +1,15 @@
 ---
 
 timesketch_pkg:
-    - git
-    - python
-    - python-pip
-    - python-dev
-    - libffi-dev
-    - supervisor
-    - unzip
-    - tar
-    - bzip2
+  - git
+  - python
+  - python-pip
+  - python-dev
+  - libffi-dev
+  - supervisor
+  - unzip
+  - tar
+  - bzip2
 
 timesketch_pip_share: /usr/local/share/timesketch
 

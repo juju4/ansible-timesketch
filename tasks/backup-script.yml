@@ -5,8 +5,8 @@
 
 - name: add backup script
   template: src=backup-timesketch.sh.j2 dest={{ scriptsdir }}/backup-timesketch.sh mode=0755
-#- name: add restore script
-#  template: src=restore-timesketch.sh.j2 dest={{ scriptsdir }}/restore-timesketch.sh mode=0755
+# - name: add restore script
+#   template: src=restore-timesketch.sh.j2 dest={{ scriptsdir }}/restore-timesketch.sh mode=0755
 
 - name: apt | ensure cron is installed
   apt: name=cron state=present

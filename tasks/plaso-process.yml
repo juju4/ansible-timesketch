@@ -26,16 +26,19 @@
       with_items: "{{ timesketch_process_files }}"
   when: timesketch_process_files is defined and timesketch_process_files != []
 
-- debug: var=timesketch_process_url
-- debug: var=timesketch_process_files
-- debug:
+- name: Debug | timesketch_process_url
+  debug: var=timesketch_process_url
+- name: Debug | timesketch_process_files
+  debug: var=timesketch_process_files
+- name: Notify command
+  debug:
     msg: >
       launching cmd{{ ':' }} log2timeline.py --logfile {{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}.log
         {{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}.plaso
         {{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}
   with_items: "{{ timesketch_process_url }}"
 - name: process image with log2timeline
-## debug: --disable_zeromq --profile --profiling_type memory
+  ## debug: --disable_zeromq --profile --profiling_type memory
   command: >
     log2timeline.py --logfile {{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}.log
         {{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}.plaso
@@ -43,14 +46,16 @@
   args:
     creates: "{{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}.plaso"
   with_items: "{{ timesketch_process_url }}"
-#  with_items: "{{ timesketch_process_url + timesketch_process_files }}"
+  # with_items: "{{ timesketch_process_url + timesketch_process_files }}"
 
 - name: check version of psort
   command: psort.py -V
   register: psortversion
   changed_when: false
-- debug: var=psortversion
-- debug:
+- name: Debug | psortversion
+  debug: var=psortversion
+- name: Command
+  debug:
     msg: >
       launching cmd{{ ':' }} psort.py -d --logfile {{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}-psort.log
         -o timesketch {{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}.plaso
@@ -63,10 +68,10 @@
   args:
     creates: "{{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}-psort.log"
   with_items: "{{ timesketch_process_url }}"
-#  with_items: "{{ timesketch_process_url + timesketch_process_files }}"
+  # with_items: "{{ timesketch_process_url + timesketch_process_files }}"
   ignore_errors: true
   async: 1800
-#  async: 3600
+  # async: 3600
   poll: 60
 
 - name: retrieve plaso files on orchestrator
@@ -75,5 +80,5 @@
     dest: "{{ timesketch_retrieve_dir }}"
     mode: '0400'
   with_items: "{{ timesketch_process_url }}"
-#  with_items: "{{ timesketch_process_url + timesketch_process_files }}"
+  # with_items: "{{ timesketch_process_url + timesketch_process_files }}"
   when: timesketch_retrieve_plasofile is defined and timesketch_retrieve_plasofile
