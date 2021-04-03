@@ -1,0 +1,68 @@
+---
+
+## from gift ppa. plaso in ubuntu official and gift
+timesketch_gift_pkg:
+  - python-artifacts
+  - python-bencode
+  - libscca
+  - libscca-python
+  - python-plaso
+  - plaso-tools
+  - libesedb-python
+  - libevt-python
+  - libevtx-python
+  - libfwsi-python
+  - liblnk-python
+  - libmsiecf-python
+  - libolecf-python
+  - libregf-python
+
+timesketch_pkg:
+  - git
+  - python3
+  - python3-pip
+  - python3-dev
+  - libffi-dev
+  - supervisor
+  - python3-psycopg2
+  ## dont conflict with gift plaso
+  # - plaso
+  - unzip
+  - tar
+  - bzip2
+  - "{{ timesketch_gift_pkg }}"
+
+timesketch_gift_remove:
+  ## can lock itself, so sometimes better to uninstall all and restart
+  # - python-plaso
+  # - python-dfwinreg
+  - python-libolecf
+  - python-libmsiecf
+  - python-liblnk
+  - python-libfwsi
+  - python-libevt
+  - python-libevtx
+  - python-libesedb
+  - python-libregf
+
+timesketch_pip_share: /usr/local/share/timesketch
+
+timesketch_jdk: openjdk-11-jre-headless
+supervisor_confdir: /etc/supervisor/conf.d
+supervisor_targetconf: timesketch.conf
+supervisor_extconf: conf
+supervisor_service: supervisor
+
+postgres_confdir: /etc/postgresql/10/main
+
+python2_deps:
+  - python
+  - python-dev
+  - python-pip
+  - gcc
+
+python_deps:
+  - python3
+  - python3-dev
+  - python3-pip
+  - gcc
