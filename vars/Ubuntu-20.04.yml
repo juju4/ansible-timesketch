@@ -2,18 +2,21 @@
 
 ## from gift ppa. plaso in ubuntu official and gift
 timesketch_gift_pkg:
-  - artifacts
-  - bencode
+  - python3-artifacts
+  - python3-bencode
   - libscca
-  - plaso
-  - libesedb
-  - libevt
-  - libevtx
-  - libfwsi
-  - liblnk
-  - libmsiecf
-  - libolecf
-  - libregf
+  - libscca-python3
+  - plaso-data
+  - plaso-tools
+  - python3-plaso
+  - libesedb-python3
+  - libevt-python3
+  - libevtx-python3
+  - libfwsi-python3
+  - liblnk-python3
+  - libmsiecf-python3
+  - libolecf-python3
+  - libregf-python3
 
 timesketch_pkg:
   - git
