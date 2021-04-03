@@ -1,5 +1,3 @@
-[![Build Status - Master](https://travis-ci.org/juju4/ansible-timesketch.svg?branch=master)](https://travis-ci.org/juju4/ansible-timesketch)
-[![Build Status - Devel](https://travis-ci.org/juju4/ansible-timesketch.svg?branch=devel)](https://travis-ci.org/juju4/ansible-timesketch/branches)
 # TimeSketch ansible role
 
 Ansible role to setup TimeSketch and Plaso for Disk images Forensics Timeline
