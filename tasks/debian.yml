@@ -15,20 +15,3 @@
 - name: Ubuntu | add universe repository
   apt_repository: repo="deb http://archive.ubuntu.com/ubuntu {{ ansible_distribution_release }} universe" state=present
   when: ansible_distribution == 'Ubuntu'
-
-- block:
-    - name: Install OpenJDK
-      apt: name={{ timesketch_jdk }} state=latest
-      register: pkg_result
-      until: pkg_result is success
-
-    - name: Download Elasticsearch v1
-      get_url:
-        url: "https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-1.7.5.deb"
-        dest: /root/elasticsearch-1.7.5.deb
-        mode: '0644'
-    - name: Install Elasticsearch v1
-      apt: deb="/root/elasticsearch-1.7.5.deb" state=present
-      register: pkg_result
-      until: pkg_result is success
-  when: timesketch_with_elasticv1 is defined and timesketch_with_elasticv1
