@@ -11,7 +11,7 @@
 
 - name: apt | timesketch packages dependencies
   apt:
-    name: "{{ timesketch_pkg }}"
+    name: "{{ timesketch_pkg + timesketch_gift_pkg }}"
     state: present
     update_cache: yes
     cache_valid_time: 3600

@@ -1,18 +1,6 @@
 ---
 
-timesketch_pkg:
-  - git
-  - python
-  - python-pip
-  - python-dev
-  - libffi-dev
-  - supervisor
-  - python3-psycopg2
-  ## dont conflict with gift plaso
-  # - plaso
-  - unzip
-  - tar
-  - bzip2
+timesketch_gift_pkg:
   ## from gift ppa. plaso in ubuntu official and gift
   - python-artifacts
   - python-bencode
@@ -28,6 +16,20 @@ timesketch_pkg:
   - libmsiecf-python
   - libolecf-python
   - libregf-python
+
+timesketch_pkg:
+  - git
+  - python
+  - python-pip
+  - python-dev
+  - libffi-dev
+  - supervisor
+  - python3-psycopg2
+  ## dont conflict with gift plaso
+  # - plaso
+  - unzip
+  - tar
+  - bzip2
 
 timesketch_gift_remove:
   ## can lock itself, so sometimes better to uninstall all and restart
