@@ -1,11 +1,6 @@
 ---
 # https://timesketch.org/getting-started/install/
 
-- name: Ensure docker-compose is present
-  package:
-    name: docker-compose
-    state: present
-
 - name: Docker | set fact
   set_fact:
     timesketch_elastic_host: elasticsearch
