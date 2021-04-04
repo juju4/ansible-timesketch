@@ -11,6 +11,12 @@
   include_vars: "RedHat-{{ ansible_distribution_version.split('.')[0] }}.yml"
   when: ansible_os_family == "RedHat"
 
+- name: check role user exists
+  user:
+    name: "{{ timesketch_user }}"
+    home: "{{ timesketch_root }}"
+  become: yes
+
 - import_tasks: native.yml
   when: timesketch_setup == 'native'
 

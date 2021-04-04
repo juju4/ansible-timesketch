@@ -21,12 +21,6 @@
   register: pkg_result
   until: pkg_result is success
 
-- name: check role user exists
-  user:
-    name: "{{ timesketch_user }}"
-    home: "{{ timesketch_root }}"
-  become: yes
-
 - name: install timesketch with pip
   pip:
     name: "{{ item.n }}"
