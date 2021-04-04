@@ -26,6 +26,9 @@ timesketch_python_pip: pip3
 timesketch_elastic_host: 127.0.0.1
 timesketch_elastic_port: 9200
 
+timesketch_redis_host: 127.0.0.1
+timesketch_redis_port: 6379
+
 ## web users of the platforms
 timesketch_userlist:
   - { u: 'bob', p: 'bobpass' }

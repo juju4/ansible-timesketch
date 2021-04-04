@@ -155,8 +155,8 @@ UPLOAD_FOLDER = '{{ timesketch_upload_folder | default('/tmp') }}'
 
 # Celery broker configuration. You need to change ip/port to where your Redis
 # server is running.
-CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
-CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
+CELERY_BROKER_URL = 'redis://{{ timesketch_redis_host }}:{{ timesketch_redis_port }}'
+CELERY_RESULT_BACKEND = 'redis://{{ timesketch_redis_host }}:{{ timesketch_redis_port }}'
 
 # File location to store the mappings used when Elastic indices are created
 # for plaso files.
