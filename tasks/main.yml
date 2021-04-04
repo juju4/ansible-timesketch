@@ -24,23 +24,11 @@
     name: "{% if timesketch_python_bin == 'python2' %}{{ python2_deps }}{% else %}{{ python_deps }}{% endif %}"
     state: present
 
-## if not provided by gift ppa
 - name: plaso pip dependencies
   pip:
-    name: ['artifacts', 'bencode']
+    requirements: https://github.com/google/timesketch/raw/master/requirements.txt
     state: present
     executable: "{{ timesketch_python_pip }}"
-  when: not (ansible_distribution == 'Ubuntu' and ansible_distribution_major_version | int >= 14)
-  register: pkg_result
-  until: pkg_result is success
-
-- name: Bugfix trusty - force Flask-Login v0.3.2 - https://github.com/google/timesketch/pull/244
-  pip:
-    name: Flask-login
-    version: 0.3.2
-    state: present
-    executable: "{{ timesketch_python_pip }}"
-  when: (ansible_distribution_release == 'trusty' or ansible_distribution_release == 'xenial')
   register: pkg_result
   until: pkg_result is success
 
@@ -69,7 +57,6 @@
     mode: '0750'
     owner: "{{ timesketch_user }}"
     group: root
-
 
 - name: Ensure timesketch var directory exists
   file:
