@@ -94,4 +94,6 @@
 
 - name: add timesketch user  # noqa no-changed-when
   command: "docker-compose exec timesketch-web tsctl add_user --username {{ item.u }} --password {{ item.p }}"
+  args:
+    chdir: "{{ timesketch_root }}"
   with_items: "{{ timesketch_userlist }}"
