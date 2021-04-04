@@ -85,6 +85,9 @@
     project_src: "{{ timesketch_root }}"
     build: no
   register: up
+  environment:
+    DOCKER_CLIENT_TIMEOUT: 120
+    COMPOSE_HTTP_TIMEOUT: 120
 
 - name: Debug | docker-compose up output
   debug: var=up
