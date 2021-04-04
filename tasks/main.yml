@@ -58,7 +58,7 @@
     executable: "{{ timesketch_python_pip }}"
   with_items:
     - { n: timesketch, v: "{{ timesketch_version }}" }
-    - { n: timesketch-api-client, v: "{{ timesketch_api_client_version" }
+    - { n: timesketch-api-client, v: "{{ timesketch_api_client_version }}" }
   register: pkg_result
   until: pkg_result is success
 
