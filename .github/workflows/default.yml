@@ -167,6 +167,7 @@ jobs:
       - name: After script - files
         run: |
           cd $GITHUB_WORKSPACE/juju4.timesketch
+          sudo kitchen exec ${{ matrix.suite }}-${{ matrix.distribution }}-${{ matrix.version2 }} -c 'ls -laR /etc/postgresql'
           sudo kitchen exec ${{ matrix.suite }}-${{ matrix.distribution }}-${{ matrix.version2 }} -c 'cat /etc/timesketch/timesketch.conf'
           sudo kitchen exec ${{ matrix.suite }}-${{ matrix.distribution }}-${{ matrix.version2 }} -c 'ls -la /etc/elasticsearch'
           sudo kitchen exec ${{ matrix.suite }}-${{ matrix.distribution }}-${{ matrix.version2 }} -c 'cat /etc/default/elasticsearch'

@@ -51,7 +51,7 @@ supervisor_targetconf: timesketch.conf
 supervisor_extconf: conf
 supervisor_service: supervisor
 
-postgres_confdir: /etc/postgresql/10/main
+postgres_confdir: /etc/postgresql/12/main
 
 python2_deps:
   - python
