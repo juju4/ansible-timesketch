@@ -10,6 +10,7 @@ rolesdir=$(dirname $0)/..
 fi
 
 [ ! -d $rolesdir/geerlingguy.java ] && git clone https://github.com/geerlingguy/ansible-role-java.git $rolesdir/geerlingguy.java
+[ ! -d $rolesdir/geerlingguy.docker ] && git clone https://github.com/geerlingguy/ansible-role-docker.git $rolesdir/geerlingguy.docker
 #[ ! -d $rolesdir/geerlingguy.elasticsearch ] && git clone https://github.com/geerlingguy/ansible-role-elasticsearch.git $rolesdir/geerlingguy.elasticsearch
 [ ! -d $rolesdir/geerlingguy.elasticsearch ] && git clone https://github.com/juju4/ansible-role-elasticsearch.git $rolesdir/geerlingguy.elasticsearch
 [ ! -d $rolesdir/geerlingguy.postgresql ] && git clone https://github.com/juju4/ansible-role-postgresql.git $rolesdir/geerlingguy.postgresql
