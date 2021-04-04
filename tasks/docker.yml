@@ -11,6 +11,7 @@
     timesketch_elastic_host: elasticsearch
     timesketch_db_host: postgres
     timesketch_redis_host: redis
+    timesketch_conf: "{{ timesketch_root }}/etc/timesketch/timesketch.conf"
 
 - name: Set vm.max_map_count for Elasticsearch
   sysctl:
