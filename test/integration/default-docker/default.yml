@@ -1,0 +1,8 @@
+---
+
+- hosts: all
+  vars:
+    - timesketch_setup: docker
+    - timesketch_process: false
+  roles:
+    - juju4.timesketch
