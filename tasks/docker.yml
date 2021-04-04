@@ -75,6 +75,12 @@
     mode: '0644'
     state: link
 
+- name: Ensure docker pip is present
+  pip:
+    name: docker
+    state: present
+    executable: "{{ timesketch_python_pip }}"
+
 - name: Run `docker-compose up`
   docker_compose:
     project_src: "{{ timesketch_root }}"
