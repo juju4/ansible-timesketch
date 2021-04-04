@@ -19,6 +19,9 @@
     sysctl_set: yes
     state: present
     reload: yes
+  when: >
+    not (ansible_virtualization_type is defined and
+    (ansible_virtualization_type == "lxc" or ansible_virtualization_type == "docker"))
 
 - name: Ensure that directories exist
   file:
