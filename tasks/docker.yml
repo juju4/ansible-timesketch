@@ -1,0 +1,90 @@
+---
+# https://timesketch.org/getting-started/install/
+
+- name: Ensure docker-compose is present
+  package:
+    name: docker-compose
+    state: present
+
+- name: Docker | set fact
+  set_fact:
+    timesketch_elastic_host: elasticsearch
+    timesketch_db_host: postgres
+    timesketch_redis_host: redis
+
+- name: Set vm.max_map_count for Elasticsearch
+  sysctl:
+    name: vm.max_map_count
+    value: '262144'
+    sysctl_set: yes
+    state: present
+    reload: yes
+
+- name: Ensure that directories exist
+  file:
+    name: "{{ item }}"
+    state: directory
+    mode: '0755'
+    owner: "{{ timesketch_user }}"
+  with_items:
+    - "{{ timesketch_root }}/data/postgresql"
+    - "{{ timesketch_root }}/data/elasticsearch"
+    - "{{ timesketch_root }}/logs"
+    - "{{ timesketch_root }}/etc"
+    - "{{ timesketch_root }}/etc/timesketch"
+    - "{{ timesketch_root }}/etc/timesketch/sigma/rules"
+    - "{{ timesketch_root }}/upload"
+
+- name: Fetch base configuration
+  get_url:
+    url: "https://raw.githubusercontent.com/google/timesketch/master/{{ item.p }}"
+    dest: "{{ timesketch_root }}/{{ item.d }}"
+    mode: '0644'
+    owner: "{{ timesketch_user }}"
+  with_items:
+    - { p: docker/release/docker-compose.yml, d: docker-compose.yml }
+    - { p: docker/release/config.env, d: config.env }
+    # - { p: data/timesketch.conf, d: etc/timesketch/timesketch.conf }
+    - { p: data/tags.yaml, d: etc/timesketch/tags.yaml }
+    - { p: data/plaso.mappings, d: etc/timesketch/plaso.mappings }
+    - { p: data/features.yaml, d: etc/timesketch/features.yaml }
+    - { p: data/sigma_config.yaml, d: etc/timesketch/sigma_config.yaml }
+    - { p: data/sigma/rules/lnx_susp_zenmap.yml, d: etc/timesketch/sigma/rules/lnx_susp_zenmap.yml }
+    - { p: contrib/nginx.conf, d: etc/nginx.conf }
+
+- name: set up timesketch config
+  template:
+    src: timesketch.conf.j2
+    dest: "{{ timesketch_conf }}"
+    owner: "{{ timesketch_user }}"
+    mode: '0600'
+
+- name: Replace variables
+  replace:
+    path: "{{ item.p }}"
+    regexp: "{{ item.re }}"
+    replace: "{{ item.rep }}"
+    mode: '0644'
+  with_items:
+    - { p: "{{ timesketch_root }}/config.env", re: "^POSTGRES_PASSWORD=", rep: "POSTGRES_PASSWORD='{{ timesketch_db_pass }}'" }
+    - { p: "{{ timesketch_root }}/config.env", re: "^ELASTIC_MEM_USE_GB=", rep: "ELASTIC_MEM_USE_GB='{{ ansible_memory_mb['real']['total']/1000/2 | round }}'" }
+
+- name: Ensure .env symlink
+  file:
+    src: "{{ timesketch_root }}/config.env"
+    dest: "{{ timesketch_root }}/timesketch/.env"
+    mode: '0644'
+    state: link
+
+- name: Run `docker-compose up`
+  docker_compose:
+    project_src: "{{ timesketch_root }}/timesketch"
+    build: no
+  register: up
+
+- name: Debug | docker-compose up output
+  debug: var=up
+
+- name: add timesketch user  # noqa no-changed-when
+  command: "docker-compose exec timesketch-web tsctl add_user --username {{ item.u }} --password {{ item.p }}"
+  with_items: "{{ timesketch_userlist }}"
