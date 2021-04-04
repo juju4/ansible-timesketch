@@ -12,4 +12,7 @@
         - name: timesketchdb
     - timesketch_process: false
   roles:
+    - geerlingguy.elasticsearch
+    - geerlingguy.postgresql
+    - geerlingguy.redis
     - juju4.timesketch

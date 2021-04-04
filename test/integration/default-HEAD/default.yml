@@ -14,4 +14,7 @@
     - timesketch_plaso_version: HEAD
     - timesketch_l2tdevtools_version: HEAD
   roles:
+    - geerlingguy.elasticsearch
+    - geerlingguy.postgresql
+    - geerlingguy.redis
     - juju4.timesketch

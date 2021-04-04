@@ -18,7 +18,4 @@ galaxy_info:
     - system
     - security
 dependencies:
-  - geerlingguy.elasticsearch
-  - geerlingguy.postgresql
-  - geerlingguy.redis
   - juju4.gift
