@@ -76,13 +76,13 @@
 - name: Ensure .env symlink
   file:
     src: "{{ timesketch_root }}/config.env"
-    dest: "{{ timesketch_root }}/timesketch/.env"
+    dest: "{{ timesketch_root }}/.env"
     mode: '0644'
     state: link
 
 - name: Run `docker-compose up`
   docker_compose:
-    project_src: "{{ timesketch_root }}/timesketch"
+    project_src: "{{ timesketch_root }}"
     build: no
   register: up
 
