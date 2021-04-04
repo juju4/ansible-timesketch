@@ -35,3 +35,6 @@ suites:
   - name: default-HEAD
     run_list:
     attributes:
+  - name: default-docker
+    run_list:
+    attributes:
