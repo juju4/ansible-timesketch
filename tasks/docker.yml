@@ -77,7 +77,9 @@
 
 - name: Ensure docker pip is present
   pip:
-    name: docker
+    name:
+      - docker
+      - docker-compose
     state: present
     executable: "{{ timesketch_python_pip }}"
 
