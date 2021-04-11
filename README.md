@@ -89,6 +89,11 @@ $ export DO_TOKEN=xxx
 $ packer build -only=digitalocean packer-*.json
 ```
 
+## FAQ
+
+* [Plaso Supported Formats](https://plaso.readthedocs.io/en/latest/sources/Supported-formats.html)
+* [Create Timeline From Other Sources](https://github.com/google/timesketch/blob/master/docs/developers/api-upload-data.md)
+
 ## Known issues
 
 * Centos7 or Fedora24 platforms not functional currently
