@@ -95,6 +95,11 @@
 - name: Debug | docker-compose up output
   debug: var=up
 
+- name: Give time for containers to be fully up
+  pause:
+    seconds: 5
+  when: up.changed
+
 - name: add timesketch user  # noqa no-changed-when
   command: "docker-compose exec -T timesketch-web tsctl add_user --username {{ item.u }} --password {{ item.p }}"
   args:
