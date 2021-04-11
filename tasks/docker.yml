@@ -35,6 +35,10 @@
     - "{{ timesketch_root }}/etc/timesketch/sigma/rules"
     - "{{ timesketch_root }}/upload"
 
+- name: Check if existing configuration
+  stat:
+    path: "{{ timesketch_root }}/config.env"
+  register: dcfg
 - name: Fetch base configuration
   get_url:
     url: "https://raw.githubusercontent.com/google/timesketch/master/{{ item.p }}"
@@ -51,6 +55,7 @@
     - { p: data/sigma_config.yaml, d: etc/timesketch/sigma_config.yaml }
     - { p: data/sigma/rules/lnx_susp_zenmap.yml, d: etc/timesketch/sigma/rules/lnx_susp_zenmap.yml }
     - { p: contrib/nginx.conf, d: etc/nginx.conf }
+  when: not dcfg.stat.exists
 
 - name: set up timesketch config
   template:
@@ -58,6 +63,7 @@
     dest: "{{ timesketch_conf }}"
     owner: "{{ timesketch_user }}"
     mode: '0600'
+    backup: "{{ timesketch_backup | default('no') }}"
 
 - name: Replace variables
   replace:
@@ -65,9 +71,10 @@
     regexp: "{{ item.re }}"
     replace: "{{ item.rep }}"
     mode: '0644'
+    backup: "{{ timesketch_backup | default('no') }}"
   with_items:
-    - { p: "{{ timesketch_root }}/config.env", re: "^POSTGRES_PASSWORD=", rep: "POSTGRES_PASSWORD='{{ timesketch_db_pass }}'" }
-    - { p: "{{ timesketch_root }}/config.env", re: "^ELASTIC_MEM_USE_GB=", rep: "ELASTIC_MEM_USE_GB='{{ ansible_memory_mb['real']['total']/1000/2 | round }}'" }
+    - { p: "{{ timesketch_root }}/config.env", re: "^POSTGRES_PASSWORD=.*", rep: "POSTGRES_PASSWORD='{{ timesketch_db_pass }}'" }
+    - { p: "{{ timesketch_root }}/config.env", re: "^ELASTIC_MEM_USE_GB=.*", rep: "ELASTIC_MEM_USE_GB='{{ ansible_memory_mb['real']['total']/1000/2 | round }}'" }
 
 - name: Ensure .env symlink
   file:
@@ -94,8 +101,9 @@
     COMPOSE_HTTP_TIMEOUT: 120
 
 - name: Debug | docker-compose up output
-  debug: var=up
+  debug: var=up verbosity=2
 
+# FIXME: not idempotent - always 'User xxx created/updated'
 - name: add timesketch user  # noqa no-changed-when
   command: "docker-compose exec -T timesketch-web tsctl add_user --username {{ item.u }} --password {{ item.p }}"
   args:
