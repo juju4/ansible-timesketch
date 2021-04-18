@@ -40,7 +40,7 @@
   with_items: "{{ timesketch_process_url + timesketch_process_files }}"
 
 # better to use quick mode/index after else can take more than 30min below
-- name: process with timesketch_importer
+- name: process with timesketch_importer  # noqa no-changed-when
   command: >
     timesketch_importer {{ timesketch_importer_args | default('-q') }}
       --host "{{ timesketch_importer_host | default('http://localhost') }}"
