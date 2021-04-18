@@ -83,6 +83,11 @@
     mode: '0644'
     state: link
 
+- name: Ensure python3-pip is present
+  package:
+    name: python3-pip
+    state: present
+
 - name: Ensure docker pip is present
   pip:
     name:
