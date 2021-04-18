@@ -64,6 +64,8 @@
     owner: "{{ timesketch_user }}"
     mode: '0600'
     backup: "{{ timesketch_backup | default('no') }}"
+  notify:
+    - restart timesketch docker-compose
 
 - name: Replace variables
   replace:

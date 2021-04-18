@@ -5,3 +5,12 @@
 
 - name: restart postgresql
   service: name=postgresql state=restarted
+
+- name: restart timesketch docker-compose
+  docker_compose:
+    project_src: "{{ timesketch_root }}"
+    build: no
+    state: restarted
+  environment:
+    DOCKER_CLIENT_TIMEOUT: 120
+    COMPOSE_HTTP_TIMEOUT: 120
