@@ -43,7 +43,7 @@
 - name: process with timesketch_importer
   command: >
     timesketch_importer {{ timesketch_importer_args | default('-q') }}
-      --host "{{ timesketch_importer_host | default('http://localhost') }}" 
+      --host "{{ timesketch_importer_host | default('http://localhost') }}"
       -u "{{ timesketch_importer_user }}" -p "{{ timesketch_importer_pass }}"
       {% if timesketch_process_sketchid is defined %}--sketch_id {{ timesketch_process_sketchid }}{% endif %}
       --timeline_name "{{ item.plasofile | basename }}" "{{ item.plasofile }}.plaso"
