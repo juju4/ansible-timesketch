@@ -1,0 +1,62 @@
+---
+
+- block:
+    - name: url | retrieve images from url
+      get_url:
+        url: "{{ item.url }}"
+        dest: "{{ timesketch_plaso_uploading_dir }}/{{ item.url | basename | regex_replace('\\?.*$', '') }}"
+        mode: '0644'
+        checksum: "{{ item.checksum }}"
+      with_items: "{{ timesketch_process_url }}"
+
+    - name: url | uncompress images from url
+      unarchive:
+        src: "{{ timesketch_plaso_uploading_dir }}/{{ item.url | basename | regex_replace('\\?.*$', '') }}"
+        dest: "{{ timesketch_plaso_uploading_dir }}"
+        copy: no
+      with_items: "{{ timesketch_process_url }}"
+  when: timesketch_process_url is defined and timesketch_process_url != [] and timesketch_process_dl
+
+- block:
+    - name: file | retrieve images from orchestrator
+      copy:
+        src: "{{ item.url }}"
+        dest: "{{ timesketch_plaso_uploading_dir }}/{{ item.url | basename | regex_replace('\\?.*$', '') }}"
+        mode: '0644'
+      with_items: "{{ timesketch_process_files }}"
+  when: timesketch_process_files is defined and timesketch_process_files != [] and timesketch_process_dl
+
+- name: Debug | timesketch_process_url
+  debug: var=timesketch_process_url
+- name: Debug | timesketch_process_files
+  debug: var=timesketch_process_files
+
+- name: process data with psteal
+  command: >
+    psteal.py --source "{{ item.url }}" -w "{{ item.plasofile }}.plaso"
+  args:
+    creates: "{{ item.plasofile }}.plaso"
+    chdir: "{{ item.url | dirname }}"
+  with_items: "{{ timesketch_process_url + timesketch_process_files }}"
+
+# better to use quick mode/index after else can take more than 30min below
+- name: process with timesketch_importer
+  command: >
+    timesketch_importer {{ timesketch_importer_args | default('-q') }}
+      --host "{{ timesketch_importer_host | default('http://localhost') }}" 
+      -u "{{ timesketch_importer_user }}" -p "{{ timesketch_importer_pass }}"
+      {% if timesketch_process_sketchid is defined %}--sketch_id {{ timesketch_process_sketchid }}{% endif %}
+      --timeline_name "{{ item.plasofile | basename }}" "{{ item.plasofile }}.plaso"
+  with_items: "{{ timesketch_process_url + timesketch_process_files }}"
+  # ignore_errors: true
+  async: 1800
+  # async: 3600
+  poll: 60
+
+- name: retrieve plaso files on orchestrator
+  fetch:
+    src: "{{ timesketch_plaso_uploading_dir }}/{{ item.url | basename }}.plaso"
+    dest: "{{ timesketch_retrieve_dir }}"
+    mode: '0400'
+  with_items: "{{ timesketch_process_url + timesketch_process_files }}"
+  when: timesketch_retrieve_plasofile is defined and timesketch_retrieve_plasofile

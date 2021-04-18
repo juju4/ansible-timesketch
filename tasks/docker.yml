@@ -116,3 +116,6 @@
   args:
     chdir: "{{ timesketch_root }}"
   with_items: "{{ timesketch_userlist }}"
+
+- import_tasks: docker-plaso-process.yml
+  when: timesketch_process|bool

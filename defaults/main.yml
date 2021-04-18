@@ -48,6 +48,7 @@ timesketch_plaso_uploading_brokerurl: 'redis://127.0.0.1:6379'
 timesketch_plaso_uploading_backend: 'redis://127.0.0.1:6379'
 
 timesketch_process: false
+timesketch_process_dl: true
 
 ## plasofile must be the name of the uncompressed file
 timesketch_process_url:
