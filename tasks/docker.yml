@@ -74,7 +74,7 @@
     backup: "{{ timesketch_backup | default('no') }}"
   with_items:
     - { p: "{{ timesketch_root }}/config.env", re: "^POSTGRES_PASSWORD=.*", rep: "POSTGRES_PASSWORD='{{ timesketch_db_pass }}'" }
-    - { p: "{{ timesketch_root }}/config.env", re: "^ELASTIC_MEM_USE_GB=.*", rep: "ELASTIC_MEM_USE_GB='{{ ansible_memory_mb['real']['total']/1000/2 | round }}'" }
+    - { p: "{{ timesketch_root }}/config.env", re: "^ELASTIC_MEM_USE_GB=.*", rep: "ELASTIC_MEM_USE_GB='{{ timesketch_docker_elasticmem | default(4) }}'" }
 
 - name: Ensure .env symlink
   file:

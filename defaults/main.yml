@@ -5,6 +5,8 @@ backupdir: /var/_backup
 
 timesketch_setup: native
 # timesketch_setup: docker
+# FIXME: round does not seem working and java not accepting float
+# timesketch_docker_elasticmem: "{{ ansible_memory_mb['real']['total']/1000/2 | round }}'"
 
 timesketch_version: '20210224'
 timesketch_api_client_version: '20210319'
