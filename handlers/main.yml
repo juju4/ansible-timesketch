@@ -10,7 +10,7 @@
   docker_compose:
     project_src: "{{ timesketch_root }}"
     build: no
-    state: restarted
+    state: present
   environment:
     DOCKER_CLIENT_TIMEOUT: 120
     COMPOSE_HTTP_TIMEOUT: 120
