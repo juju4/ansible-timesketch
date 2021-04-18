@@ -106,9 +106,14 @@
   environment:
     DOCKER_CLIENT_TIMEOUT: 120
     COMPOSE_HTTP_TIMEOUT: 120
+  notify:
+    - pause
 
 - name: Debug | docker-compose up output
   debug: var=up verbosity=2
+
+- name: Flush handlers
+  meta: flush_handlers
 
 # FIXME: not idempotent - always 'User xxx created/updated'
 - name: add timesketch user  # noqa no-changed-when
