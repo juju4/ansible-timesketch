@@ -24,6 +24,9 @@ provisioner:
   ansible_connection: ssh
   ansible_omnibus_url: https://raw.githubusercontent.com/juju4/omnibus-ansible/master/ansible_install.sh
 
+verifier:
+  name: serverspec
+
 platforms:
   - name: ubuntu-20.04
   - name: ubuntu-18.04
