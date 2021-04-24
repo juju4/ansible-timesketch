@@ -25,7 +25,7 @@ provisioner:
   ansible_omnibus_url: https://raw.githubusercontent.com/juju4/omnibus-ansible/master/ansible_install.sh
 
 verifier:
-  name: serverspec
+  name: inspec
 
 platforms:
   - name: ubuntu-20.04
@@ -36,11 +36,6 @@ suites:
   - name: default
     run_list:
     attributes:
-    verifier:
-      patterns:
-        - /tmp/kitchen/juju4.timesketch/test/integration/default/serverspec/timesketch_spec.rb
-        - /tmp/kitchen/juju4.timesketch/test/integration/default/serverspec/timesketch_curl_spec.rb
-        - /tmp/kitchen/juju4.timesketch/test/integration/default/serverspec/supervisor_spec.rb
   - name: default-process
     run_list:
     attributes:
@@ -50,5 +45,3 @@ suites:
   - name: default-docker
     run_list:
     attributes:
-    verifier:
-      default_path: /tmp/kitchen/juju4.timesketch/test/integration/default-docker/serverspec
