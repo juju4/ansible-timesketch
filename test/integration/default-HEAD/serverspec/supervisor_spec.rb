@@ -13,7 +13,7 @@ set :backend, :exec
 describe service('supervisor'), :if => os[:family] == 'ubuntu' do
 #  it { should be_enabled   }	## FIXME!
   it { should be_running   }
-end  
+end
 
 describe service('supervisord'), :if => os[:family] == 'redhat' do
 #  it { should be_enabled }	## FIXME! for some reason...
@@ -25,4 +25,3 @@ describe command('supervisorctl status') do
   its(:stdout) { should_not match /unix:\/\/\/var\/run\/supervisor.sock no such file/ }
   its(:exit_status) { should eq 0 }
 end
-

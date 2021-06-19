@@ -12,4 +12,3 @@ describe process("tsctl") do
   end
 
 end
-
