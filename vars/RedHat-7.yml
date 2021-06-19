@@ -36,6 +36,7 @@ timesketch_pkg:
   - unzip
   - tar
   - bzip2
+  - postgresql-devel
 
 timesketch_gift_remove: []
 

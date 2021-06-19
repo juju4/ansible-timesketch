@@ -29,6 +29,7 @@ timesketch_pkg:
   - unzip
   - tar
   - bzip2
+  - libpq-dev
 
 timesketch_gift_remove:
   ## can lock itself, so sometimes better to uninstall all and restart
