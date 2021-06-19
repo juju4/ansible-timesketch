@@ -24,3 +24,5 @@
 
 - import_tasks: docker.yml
   when: timesketch_setup == 'docker'
+
+- import_tasks: desktop-shortcut.yml

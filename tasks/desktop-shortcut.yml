@@ -1,0 +1,8 @@
+---
+
+- name: Add desktop shortcut
+  template:
+    src: timesketch.desktop.j2
+    dest: "{{ item }}/timesketch.desktop"
+    mode: '0600'
+  with_items: "{{ timesketch_shortcut_list | default([]) }}"
