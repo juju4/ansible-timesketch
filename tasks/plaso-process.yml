@@ -69,7 +69,7 @@
     creates: "{{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}-psort.log"
   with_items: "{{ timesketch_process_url }}"
   # with_items: "{{ timesketch_process_url + timesketch_process_files }}"
-  ignore_errors: true
+  failed_when: false
   async: 1800
   # async: 3600
   poll: 60
