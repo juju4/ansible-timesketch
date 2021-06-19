@@ -19,4 +19,3 @@ describe command('psort.py -o timesketch -h') do
   its(:stdout) { should match /Application to read, filter and process output from a plaso storage file/ }
   its(:stderr) { should_not match /ModuleNotFoundError/ }
 end
-

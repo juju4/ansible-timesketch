@@ -26,4 +26,3 @@ describe command("docker exec -it timesketch_postgres_1 psql -U timesketch -c '\
   its(:stderr) { should_not match /Error/i }
   its(:exit_status) { should eq 0 }
 end
-

@@ -12,4 +12,3 @@ describe process("docker-proxy") do
   end
 
 end
-

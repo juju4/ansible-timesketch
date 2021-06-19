@@ -4,7 +4,7 @@ title 'supervisor section'
 control 'supervisor-1.0' do
   impact 0.7
   title 'supervisor should be present'
-  desc 'Ensure supervisor is present and active' 
+  desc 'Ensure supervisor is present and active'
 
   describe service('supervisor'), :if => os[:family] == 'ubuntu' do
     # it { should be_enabled   }
