@@ -21,6 +21,7 @@ timesketch_port: 5000
 
 timesketch_python_bin: python3
 timesketch_python_pip: pip3
+timesketch_python_env: "{{ timesketch_root }}/env-timesketch"
 
 ## an elasticsearch db is mandatory for user creation
 ## if you put false here, ensure it is available.

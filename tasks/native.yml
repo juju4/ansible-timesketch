@@ -13,11 +13,28 @@
     name: "{% if timesketch_python_bin == 'python2' %}{{ python2_deps }}{% else %}{{ python_deps }}{% endif %}"
     state: present
 
+- name: Ensure timesketch var directory exists
+  file:
+    dest: "{{ timesketch_root }}"
+    state: directory
+    mode: '0755'
+    owner: "{{ timesketch_user }}"
+
 - name: plaso pip dependencies
   pip:
     requirements: https://github.com/google/timesketch/raw/master/requirements.txt
     state: present
-    executable: "{{ timesketch_python_pip }}"
+    virtualenv: "{{ timesketch_python_env }}"
+    virtualenv_python: "{{ timesketch_python_bin }}"
+  register: pkg_result
+  until: pkg_result is success
+
+- name: psycopg2 pip
+  pip:
+    name: psycopg2
+    state: present
+    virtualenv: "{{ timesketch_python_env }}"
+    virtualenv_python: "{{ timesketch_python_bin }}"
   register: pkg_result
   until: pkg_result is success
 
@@ -26,7 +43,8 @@
     name: "{{ item.n }}"
     version: "{{ item.v }}"
     state: present
-    executable: "{{ timesketch_python_pip }}"
+    virtualenv: "{{ timesketch_python_env }}"
+    virtualenv_python: "{{ timesketch_python_bin }}"
   with_items:
     - { n: timesketch, v: "{{ timesketch_version }}" }
     - { n: timesketch-api-client, v: "{{ timesketch_api_client_version }}" }
@@ -40,13 +58,6 @@
     mode: '0750'
     owner: "{{ timesketch_user }}"
     group: root
-
-- name: Ensure timesketch var directory exists
-  file:
-    dest: "{{ timesketch_root }}"
-    state: directory
-    mode: '0755'
-    owner: "{{ timesketch_user }}"
 
 - name: set up timesketch config
   template:
@@ -63,7 +74,7 @@
   debug: var=timesketch_userlist
 ## FIXME! idempotent? overwrite any existing user
 - name: add timesketch user  # noqa no-changed-when
-  command: "tsctl add_user --username {{ item.u }} --password {{ item.p }}"
+  command: "{{ timesketch_python_env }}/bin/tsctl add_user --username {{ item.u }} --password {{ item.p }}"
   # args:
   #   creates: /var/timesketch/database.db
   with_items: "{{ timesketch_userlist }}"
