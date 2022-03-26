@@ -2,7 +2,7 @@
 
 - block:
     - name: url | retrieve images from url
-      get_url:
+      ansible.builtin.get_url:
         url: "{{ item.url }}"
         dest: "{{ timesketch_plaso_uploading_dir }}/{{ item.url | basename | regex_replace('\\?.*$', '') }}"
         mode: '0644'
@@ -10,7 +10,7 @@
       with_items: "{{ timesketch_process_url }}"
 
     - name: url | uncompress images from url
-      unarchive:
+      ansible.builtin.unarchive:
         src: "{{ timesketch_plaso_uploading_dir }}/{{ item.url | basename | regex_replace('\\?.*$', '') }}"
         dest: "{{ timesketch_plaso_uploading_dir }}"
         copy: no
@@ -19,7 +19,7 @@
 
 - block:
     - name: file | retrieve images from orchestrator
-      copy:
+      ansible.builtin.copy:
         src: "{{ item.url }}"
         dest: "{{ timesketch_plaso_uploading_dir }}/{{ item.url | basename | regex_replace('\\?.*$', '') }}"
         mode: '0644'
@@ -27,11 +27,11 @@
   when: timesketch_process_files is defined and timesketch_process_files != []
 
 - name: Debug | timesketch_process_url
-  debug: var=timesketch_process_url
+  ansible.builtin.debug: var=timesketch_process_url
 - name: Debug | timesketch_process_files
-  debug: var=timesketch_process_files
+  ansible.builtin.debug: var=timesketch_process_files
 - name: Notify command
-  debug:
+  ansible.builtin.debug:
     msg: >
       launching cmd{{ ':' }} log2timeline.py --logfile {{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}.log
         {{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}.plaso
@@ -39,7 +39,7 @@
   with_items: "{{ timesketch_process_url }}"
 - name: process image with log2timeline
   ## debug: --disable_zeromq --profile --profiling_type memory
-  command: >
+  ansible.builtin.command: >
     log2timeline.py --logfile {{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}.log
         {{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}.plaso
         {{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}
@@ -49,20 +49,20 @@
   # with_items: "{{ timesketch_process_url + timesketch_process_files }}"
 
 - name: check version of psort
-  command: psort.py -V
+  ansible.builtin.command: psort.py -V
   register: psortversion
   changed_when: false
 - name: Debug | psortversion
-  debug: var=psortversion
+  ansible.builtin.debug: var=psortversion
 - name: Command
-  debug:
+  ansible.builtin.debug:
     msg: >
       launching cmd{{ ':' }} psort.py -d --logfile {{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}-psort.log
         -o timesketch {{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}.plaso
   with_items: "{{ timesketch_process_url }}"
 
 - name: process image with psort
-  command: >
+  ansible.builtin.command: >
     psort.py -d --logfile {{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}-psort.log
         -o timesketch {{ timesketch_plaso_uploading_dir }}/{{ item.plasofile }}.plaso
   args:
@@ -75,7 +75,7 @@
   poll: 60
 
 - name: retrieve plaso files on orchestrator
-  fetch:
+  ansible.builtin.fetch:
     src: "{{ timesketch_plaso_uploading_dir }}/{{ item.url | basename }}.plaso"
     dest: "{{ timesketch_retrieve_dir }}"
     mode: '0400'

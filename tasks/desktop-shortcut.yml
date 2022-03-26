@@ -1,7 +1,7 @@
 ---
 
 - name: Add desktop shortcut
-  template:
+  ansible.builtin.template:
     src: timesketch.desktop.j2
     dest: "{{ item }}/timesketch.desktop"
     mode: '0600'

@@ -2,7 +2,7 @@
 
 - block:
     - name: apt | remove conflicting packages with gift repository
-      apt:
+      ansible.builtin.apt:
         name: "{{ timesketch_gift_remove }}"
         state: absent
       register: pkg_result
@@ -10,7 +10,7 @@
   when: timesketch_gift_remove is defined and timesketch_gift_remove != []
 
 - name: apt | timesketch packages dependencies
-  apt:
+  ansible.builtin.apt:
     name: "{{ timesketch_pkg + timesketch_gift_pkg }}"
     state: present
     update_cache: yes
@@ -19,7 +19,7 @@
   until: pkg_result is success
 
 - name: Ubuntu | add universe repository
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: "deb http://archive.ubuntu.com/ubuntu {{ ansible_distribution_release }} universe"
     state: present
   when: ansible_distribution == 'Ubuntu'

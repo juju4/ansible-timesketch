@@ -1,7 +1,7 @@
 ---
 
 - name: Enable plaso uploading in timesketch
-  replace:
+  ansible.builtin.replace:
     dest: "{{ timesketch_conf }}"
     regexp: "{{ item.re }}"
     replace: "{{ item.rep }}"
@@ -14,7 +14,7 @@
     - restart supervisor
 
 - name: set supervisor config for celery
-  template:
+  ansible.builtin.template:
     src: supervisord-celery.ini
     dest: "{{ supervisor_confdir }}/timesketch-celery.{{ supervisor_extconf }}"
     mode: '0644'

@@ -1,27 +1,27 @@
 ---
 
 - name: Ensure scripts directory exists
-  file: path={{ scriptsdir }} state=directory mode=0755
+  ansible.builtin.file: path={{ scriptsdir }} state=directory mode=0755
 
 - name: add backup script
-  template: src=backup-timesketch.sh.j2 dest={{ scriptsdir }}/backup-timesketch.sh mode=0755
+  ansible.builtin.template: src=backup-timesketch.sh.j2 dest={{ scriptsdir }}/backup-timesketch.sh mode=0755
 # - name: add restore script
-#   template: src=restore-timesketch.sh.j2 dest={{ scriptsdir }}/restore-timesketch.sh mode=0755
+#   ansible.builtin.template: src=restore-timesketch.sh.j2 dest={{ scriptsdir }}/restore-timesketch.sh mode=0755
 
 - name: apt | ensure cron is installed
-  apt: name=cron state=present
+  ansible.builtin.apt: name=cron state=present
   when: ansible_os_family == 'Debian'
   register: pkg_result
   until: pkg_result is success
 
 - name: yum | ensure cron is installed
-  yum: name=crontabs state=present
+  ansible.builtin.yum: name=crontabs state=present
   when: ansible_os_family == "RedHat"
   register: pkg_result
   until: pkg_result is success
 
 - name: setup cron backup
-  cron: name="timesketch-backup" minute="30" hour="3" weekday="0"
+  ansible.builtin.cron: name="timesketch-backup" minute="30" hour="3" weekday="0"
     job="{{ scriptsdir }}/backup-timesketch.sh > /dev/null 2>&1"
     user=root
     cron_file=ansible_timesketch-backup

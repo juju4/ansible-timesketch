@@ -1,13 +1,13 @@
 ---
 
 - name: git clone plaso
-  git:
+  ansible.builtin.git:
     repo: https://github.com/log2timeline/plaso.git
     dest: "{{ timesketch_pip_share }}/plaso"
     version: "{{ timesketch_plaso_version | default('20200121') }}"
 
 - name: git clone l2tdevtools
-  git:
+  ansible.builtin.git:
     repo: https://github.com/log2timeline/l2tdevtools.git
     dest: "{{ timesketch_pip_share }}/l2tdevtools"
     version: "{{ timesketch_l2tdevtools_version | default('HEAD') }}"
@@ -16,7 +16,7 @@
 ## centos7: s/python3-/python34-/g
 ## Fedora24: s/python-/python2-/g
 - name: download and build with l2tdevtools  # noqa no-changed-when
-  command: "{{ item }}"
+  ansible.builtin.command: "{{ item }}"
   args:
     chdir: "{{ timesketch_pip_share }}/l2tdevtools"
   with_items:
@@ -25,6 +25,6 @@
   environment:
     PYTHONPATH: .
 - name: install built rpm
-  yum: name={{ item }} state=present
+  ansible.builtin.yum: name={{ item }} state=present
   with_fileglob:
     - "{{ timesketch_pip_share }}/l2tdevtools/build/*.rpm"

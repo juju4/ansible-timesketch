@@ -2,7 +2,7 @@
 # https://timesketch.org/getting-started/install/
 
 - name: Docker | set fact
-  set_fact:
+  ansible.builtin.set_fact:
     timesketch_elastic_host: elasticsearch
     timesketch_db_host: postgres
     timesketch_db: timesketch
@@ -21,7 +21,7 @@
     (ansible_virtualization_type == "lxc" or ansible_virtualization_type == "docker"))
 
 - name: Ensure that directories exist
-  file:
+  ansible.builtin.file:
     name: "{{ item }}"
     state: directory
     mode: '0755'
@@ -36,11 +36,11 @@
     - "{{ timesketch_root }}/upload"
 
 - name: Check if existing configuration
-  stat:
+  ansible.builtin.stat:
     path: "{{ timesketch_root }}/config.env"
   register: dcfg
 - name: Fetch base configuration
-  get_url:
+  ansible.builtin.get_url:
     url: "https://raw.githubusercontent.com/google/timesketch/master/{{ item.p }}"
     dest: "{{ timesketch_root }}/{{ item.d }}"
     mode: '0644'
@@ -58,7 +58,7 @@
   when: not dcfg.stat.exists
 
 - name: set up timesketch config
-  template:
+  ansible.builtin.template:
     src: timesketch.conf.j2
     dest: "{{ timesketch_conf }}"
     owner: "{{ timesketch_user }}"
@@ -68,7 +68,7 @@
     - restart timesketch docker-compose
 
 - name: Replace variables
-  replace:
+  ansible.builtin.replace:
     path: "{{ item.p }}"
     regexp: "{{ item.re }}"
     replace: "{{ item.rep }}"
@@ -79,19 +79,19 @@
     - { p: "{{ timesketch_root }}/config.env", re: "^ELASTIC_MEM_USE_GB=.*", rep: "ELASTIC_MEM_USE_GB='{{ timesketch_docker_elasticmem | default(4) }}'" }
 
 - name: Ensure .env symlink
-  file:
+  ansible.builtin.file:
     src: "{{ timesketch_root }}/config.env"
     dest: "{{ timesketch_root }}/.env"
     mode: '0644'
     state: link
 
 - name: Ensure python3-pip is present
-  package:
+  ansible.builtin.package:
     name: python3-pip
     state: present
 
 - name: Ensure docker pip is present
-  pip:
+  ansible.builtin.pip:
     name:
       - docker
       - docker-compose
@@ -110,14 +110,14 @@
     - pause
 
 - name: Debug | docker-compose up output
-  debug: var=up verbosity=2
+  ansible.builtin.debug: var=up verbosity=2
 
 - name: Flush handlers
-  meta: flush_handlers
+  ansible.builtin.meta: flush_handlers
 
 # FIXME: not idempotent - always 'User xxx created/updated'
 - name: add timesketch user  # noqa no-changed-when
-  command: "docker-compose exec -T timesketch-web tsctl add_user --username {{ item.u }} --password {{ item.p }}"
+  ansible.builtin.command: "docker-compose exec -T timesketch-web tsctl add_user --username {{ item.u }} --password {{ item.p }}"
   args:
     chdir: "{{ timesketch_root }}"
   with_items: "{{ timesketch_userlist }}"

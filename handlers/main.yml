@@ -1,10 +1,10 @@
 ---
 
 - name: restart supervisor
-  service: name={{ supervisor_service }} state=restarted sleep=5
+  ansible.builtin.service: name={{ supervisor_service }} state=restarted sleep=5
 
 - name: restart postgresql
-  service: name=postgresql state=restarted
+  ansible.builtin.service: name=postgresql state=restarted
 
 - name: restart timesketch docker-compose
   docker_compose:
@@ -16,4 +16,4 @@
     COMPOSE_HTTP_TIMEOUT: 120
 
 - name: pause
-  pause: seconds=5
+  ansible.builtin.pause: seconds=5

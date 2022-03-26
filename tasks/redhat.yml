@@ -1,7 +1,7 @@
 ---
 
 - name: Redhat | timesketch packages install
-  yum: name={{ timesketch_pkg }} state=present update_cache=yes
+  ansible.builtin.yum: name={{ timesketch_pkg }} state=present update_cache=yes
   register: pkg_result
   until: pkg_result is success
 

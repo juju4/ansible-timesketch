@@ -2,7 +2,7 @@
 
 - block:
     - name: url | retrieve images from url
-      get_url:
+      ansible.builtin.get_url:
         url: "{{ item.url }}"
         dest: "{{ timesketch_plaso_uploading_dir }}/{{ item.url | basename | regex_replace('\\?.*$', '') }}"
         mode: '0644'
@@ -10,7 +10,7 @@
       with_items: "{{ timesketch_process_url }}"
 
     - name: url | uncompress images from url
-      unarchive:
+      ansible.builtin.unarchive:
         src: "{{ timesketch_plaso_uploading_dir }}/{{ item.url | basename | regex_replace('\\?.*$', '') }}"
         dest: "{{ timesketch_plaso_uploading_dir }}"
         copy: no
@@ -19,7 +19,7 @@
 
 - block:
     - name: file | retrieve images from orchestrator
-      copy:
+      ansible.builtin.copy:
         src: "{{ item.url }}"
         dest: "{{ timesketch_plaso_uploading_dir }}/{{ item.url | basename | regex_replace('\\?.*$', '') }}"
         mode: '0644'
@@ -27,12 +27,12 @@
   when: timesketch_process_files is defined and timesketch_process_files != [] and timesketch_process_dl
 
 - name: Debug | timesketch_process_url
-  debug: var=timesketch_process_url
+  ansible.builtin.debug: var=timesketch_process_url
 - name: Debug | timesketch_process_files
-  debug: var=timesketch_process_files
+  ansible.builtin.debug: var=timesketch_process_files
 
 - name: process data with psteal
-  command: >
+  ansible.builtin.command: >
     psteal.py --source "{{ item.url }}" -w "{{ item.plasofile }}.plaso"
   args:
     creates: "{{ item.plasofile }}.plaso"
@@ -41,7 +41,7 @@
 
 # better to use quick mode/index after else can take more than 30min below
 - name: process with timesketch_importer  # noqa no-changed-when
-  command: >
+  ansible.builtin.command: >
     timesketch_importer {{ timesketch_importer_args | default('-q') }}
       --host "{{ timesketch_importer_host | default('http://localhost') }}"
       -u "{{ timesketch_importer_user }}" -p "{{ timesketch_importer_pass }}"
@@ -54,7 +54,7 @@
   poll: 60
 
 - name: retrieve plaso files on orchestrator
-  fetch:
+  ansible.builtin.fetch:
     src: "{{ timesketch_plaso_uploading_dir }}/{{ item.url | basename }}.plaso"
     dest: "{{ timesketch_retrieve_dir }}"
     mode: '0400'
