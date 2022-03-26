@@ -1,11 +1,11 @@
 ---
 
 - name: Debian | requirements
-  include: debian.yml
+  import_tasks: debian.yml
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: Redhat | requirements
-  include: redhat.yml
+  import_tasks: redhat.yml
   when: ansible_os_family == "RedHat"
 
 - name: Ensure right python is present
@@ -57,7 +57,7 @@
   notify:
     - restart supervisor
 
-- include: configure-postgresql.yml
+- import_tasks: configure-postgresql.yml
 
 - name: Debug | timesketch_userlist
   ansible.builtin.debug: var=timesketch_userlist
@@ -78,14 +78,14 @@
   notify:
     - restart supervisor
 
-- include: backup-script.yml
+- import_tasks: backup-script.yml
 
 ## FIXME! ansible bug. not working on xenial
 - name: ensure supervisor service is enabled and started
   ansible.builtin.service: name={{ supervisor_service }} enabled=yes state=started
 
-- include: plaso-uploading.yml
+- import_tasks: plaso-uploading.yml
   when: timesketch_uploading is defined and timesketch_uploading
 
-- include: plaso-process.yml
+- import_tasks: plaso-process.yml
   when: timesketch_process is defined and timesketch_process
