@@ -1,3 +1,6 @@
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+# DEPRECATED/LOOKING FOR MAINTAINERS -> to be archived soon
+
 # TimeSketch ansible role
 
 Ansible role to setup TimeSketch and Plaso for Disk images Forensics Timeline
